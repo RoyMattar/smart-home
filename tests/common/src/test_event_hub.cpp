@@ -1,11 +1,11 @@
-#include "TestEventHub.hpp"
-#include "TestControllerAgent.hpp"
+#include "test_event_hub.hpp"
+#include "test_controller_agent.hpp"
 
-namespace testSmartHome
+namespace test_smart_home
 {
 
-TestEventHub::TestEventHub (const SharedPtr<SmartHome::iDequeueableQueue<SharedPtr<SmartHome::Event> > >& a_pDeqableQ)
-    : m_pDeqableQ(a_pDeqableQ)
+TestEventHub::TestEventHub (const SharedPtr<smart_home::IPullEventBuss<SharedPtr<smart_home::Event> > >& a_pullBus)
+    : m_pullBus(a_pullBus)
     , m_subscribers()
 { }
 
@@ -16,8 +16,8 @@ void TestEventHub::Subscribe (const TestControllerAgent& a_controller)
 
 void TestEventHub::DistributeEvent ()
 {
-    SharedPtr<SmartHome::Event> pEvent;
-    m_pDeqableQ->Dequeue(pEvent);
+    SharedPtr<smart_home::Event> pEvent;
+    m_pullBus->Dequeue(pEvent);
 
     for (std::list<TestControllerAgent>::iterator itr = m_subscribers.begin()
     ; itr != m_subscribers.end()
@@ -27,4 +27,4 @@ void TestEventHub::DistributeEvent ()
     }
 }
 
-} // testSmartHome
+} // test_smart_home

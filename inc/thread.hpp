@@ -6,9 +6,9 @@
 #include <pthread.h>
 #include <sys/types.h> // useconds_t
 #include "common_utils.hpp"
-#include "Runnable.hpp"
-#include "SharedPtr.hpp"
-#include "AtomicFlag.hpp"
+#include "runnable.hpp"
+//#include "SharedPtr.hpp"
+#include "atomic_flag.hpp"
 
 namespace advcpp
 {

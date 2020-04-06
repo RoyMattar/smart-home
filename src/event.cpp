@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 
-#include "Event.hpp"
+#include "event.hpp"
 #include "common_utils.hpp"
 
-namespace SmartHome
+namespace smart_home
 {
 
 Event::Event ()
@@ -30,4 +30,4 @@ void Event::Print () const NOEXCEPTIONS
               << "Event location: " << m_location << std::endl;
 }
 
-} // SmartHome
+} // smart_home

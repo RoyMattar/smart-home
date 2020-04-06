@@ -4,17 +4,17 @@
 #include <list>
 
 #include "common_utils.hpp"
-#include "iDequeueableQueue.hpp"
-#include "Event.hpp"
+#include "i_pull_event_bus.hpp"
+#include "event.hpp"
 
-namespace testSmartHome
+namespace test_smart_home
 {
 class TestControllerAgent;
 
 class TestEventHub
 {
 public:
-    TestEventHub (const SharedPtr<SmartHome::iDequeueableQueue<SharedPtr<SmartHome::Event> > >& a_pDeqableQ);
+    TestEventHub (const SharedPtr<smart_home::IPullEventBuss<SharedPtr<smart_home::Event> > >& a_pullBus);
     //TestEventHub (const TestEventHub& a_other) = default;
     //~TestEventHub () = default;
     //TestEventHub& operator= (const TestEventHub& a_other) = default;
@@ -23,10 +23,10 @@ public:
     void DistributeEvent ();
 
 private:
-    SharedPtr<SmartHome::iDequeueableQueue<SharedPtr<SmartHome::Event> > > m_pDeqableQ;
+    SharedPtr<smart_home::IPullEventBuss<SharedPtr<smart_home::Event> > > m_pullBus;
     std::list<TestControllerAgent> m_subscribers;
 };
 
-} // testSmartHome
+} // test_smart_home
 
 #endif // TEST_EVENT_HUB_HPP

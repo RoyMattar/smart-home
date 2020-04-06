@@ -1,29 +1,17 @@
 #include "mu_test.h"
 
 #include "common_utils.hpp"
-#include "Event.hpp"
-#include "WaitableBoundedQueue.hpp"
-#include "TestSensorAgent.hpp"
-#include "TestEventHub.hpp"
-#include "TestControllerAgent.hpp"
+#include "event.hpp"
+#include "waitable_bounded_queue.hpp"
+#include "test_sensor_agent.hpp"
+#include "test_event_hub.hpp"
+#include "test_controller_agent.hpp"
 
 using namespace advcpp;
-using SmartHome::Event;
-using testSmartHome::TestSensorAgent;
-using testSmartHome::TestEventHub;
-using testSmartHome::TestControllerAgent;
-
-// classes
-// vlaue types : semi regular, regular
-// reference types: polymorfic, not copyable, no ==
-
-// regular class
-    bool operator==(A,A);
-    !(x==y)
-    bool operator!=(A x, A y) { return !(x==y);}
-// semi regular class
-
-typedef WaitableBoundedQueue<SharedPtr<Event> > EventBus;
+using smart_home::Event;
+using test_smart_home::TestSensorAgent;
+using test_smart_home::TestEventHub;
+using test_smart_home::TestControllerAgent;
 
 UNIT(mvp)
     SharedPtr<EventBus> q(new EventBus(5));
@@ -36,20 +24,15 @@ UNIT(mvp)
 
 // setup is done, lets test behavior
     Event e("fdkdo");
-    ASSERT_EQUAL(q.size(), 0);
+    ASSERT_EQUAL(q.NumOfElems(), 0);
     sensor.PublishEvent(e);
-    ASSERT_EQUAL(q.size(), 1);
+    ASSERT_EQUAL(q.NumOfElems(), 1);
     hub.DistributeEvent();
 
 // lets assert and verify
     eout = controller.GetEvent();
     ASSERT_EQUAL(eout, e);
-    ASSERT_EQUAL(q.size(), 0);
-    
-    ASSERT_EQUAL(e.GetType(), e.GetType());
-    ASSERT_EQUAL(e.GetTimestamp(), controller.GetEvent().GetTimestamp());
-    ASSERT_EQUAL(e.GetPayload(), controller.GetEvent().GetPayload());
-    ASSERT_EQUAL(e.GetLocation(), controller.GetEvent().GetLocation());
+    ASSERT_EQUAL(q.NumOfElems(), 0);
 END_UNIT
 
 TEST_SUITE(mvptest)

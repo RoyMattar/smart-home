@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <unistd.h> // usleep()
 
-#include "Mutex.hpp"
+#include "mutex.hpp"
 #include "common_utils.hpp"
 
 namespace advcpp

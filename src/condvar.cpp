@@ -3,8 +3,8 @@
 #include <pthread.h>
 #include <unistd.h> // usleep()
 
-#include "CondVar.hpp"
-#include "Mutex.hpp"
+#include "condvar.hpp"
+#include "mutex.hpp"
 #include "common_utils.hpp"
 
 namespace advcpp

@@ -1,5 +1,5 @@
-#include "LockGuard.hpp"
-#include "Mutex.hpp"
+#include "lock_guard.hpp"
+#include "mutex.hpp"
 #include "common_utils.hpp"
 
 namespace advcpp

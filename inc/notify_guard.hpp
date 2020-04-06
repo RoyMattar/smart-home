@@ -2,8 +2,8 @@
 #define NOTIFY_GUARD_HPP
 
 #include "common_utils.hpp"
-#include "CondVar.hpp"
-#include "Mutex.hpp"
+#include "condvar.hpp"
+#include "mutex.hpp"
 
 namespace advcpp
 {
@@ -47,6 +47,6 @@ private:
 
 } // advcpp
 
-#include "inl/NotifyGuard.hxx"
+#include "inl/notify_guard.hxx"
 
 #endif // NOTIFY_GUARD_HPP

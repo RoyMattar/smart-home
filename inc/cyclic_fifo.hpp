@@ -44,6 +44,6 @@ private:
 
 } // advcpp
 
-#include "inl/CyclicFifo.hxx"
+#include "inl/cyclic_fifo.hxx"
 
 #endif // CYCLIC_FIFO_HPP

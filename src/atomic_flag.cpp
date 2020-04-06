@@ -1,5 +1,5 @@
-#include "AtomicFlag.hpp"
-#include "AtomicValue.hpp"
+#include "atomic_flag.hpp"
+#include "atomic_value.hpp"
 #include "common_utils.hpp"
 
 namespace advcpp

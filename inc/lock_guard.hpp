@@ -2,7 +2,7 @@
 #define LOCK_GUARD_HPP
 
 #include "common_utils.hpp"
-#include "Mutex.hpp"
+#include "mutex.hpp"
 
 namespace advcpp
 {

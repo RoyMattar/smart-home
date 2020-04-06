@@ -28,6 +28,6 @@ private:
 
 } // advcpp
 
-#include "inl/AtomicValue.hxx"
+#include "inl/atomic_value.hxx"
 
 #endif // ATOMIC_VALUE_HPP

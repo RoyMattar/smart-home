@@ -3,12 +3,10 @@
 
 #include <cstddef> // size_t
 #include "common_utils.hpp"
-#include "CyclicFifo.hpp"
-#include "Mutex.hpp"
-#include "CondVar.hpp"
-#include "AtomicFlag.hpp"
-#include "iEnqueueableQueue.hpp"
-#include "iDequeueableQueue.hpp"
+#include "cyclic_fifo.hpp"
+#include "mutex.hpp"
+#include "condvar.hpp"
+#include "atomic_flag.hpp"
 
 namespace advcpp
 {
@@ -16,7 +14,7 @@ namespace advcpp
 template <typename T, typename Q = CyclicFifo<T> >
 //require:  T   has default construcor, copy constructor and assignment operator
 //          Q   has constructor from size_t, PushBack(), PopFront(), NumOfElems() and Capacity()
-class WaitableBoundedQueue : private Uncopyable, public SmartHome::iEnqueueableQueue<T>, public SmartHome::iDequeueableQueue<T>
+class WaitableBoundedQueue : private Uncopyable
 {
 public:
     //@brief constructor from size_t
@@ -57,6 +55,6 @@ private:
 
 } // advcpp
 
-#include "inl/WaitableBoundedQueue.hxx"
+#include "inl/waitable_bounded_queue.hxx"
 
 #endif // WAITABLE_BOUNDED_QUEUE_HPP

@@ -1,7 +1,7 @@
 #include <stdexcept> // std::exception
-#include "LockGuard.hpp"
-#include "NotifyGuard.hpp"
-#include "CompositePredicates.hpp"
+#include "lock_guard.hpp"
+#include "notify_guard.hpp"
+#include "composite_predicates.hpp"
 
 namespace advcpp
 {

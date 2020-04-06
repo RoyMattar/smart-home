@@ -4,7 +4,7 @@ CC	= g++
 CXX = $(CC)
 
 CFLAGS = -ansi -pedantic -g
-CFLAGS += -Wall -Wno-newline-eof
+CFLAGS += -Wall
 #CFLAGS += -Werror
 CXXFLAGS = $(CFLAGS) -std=c++03 
 

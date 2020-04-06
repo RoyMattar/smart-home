@@ -5,7 +5,7 @@
 #include <cerrno>
 #include <cassert>
 #include <pthread.h>
-#include "Mutex.hpp"
+#include "mutex.hpp"
 #include "common_utils.hpp"
 
 namespace advcpp

@@ -4,10 +4,10 @@
 #include <cerrno>
 #include <pthread.h>
 #include <time.h> // struct timespec, clock_gettime()
-#include "Thread.hpp"
-#include "SharedPtr.hpp"
-#include "Runnable.hpp"
-#include "AtomicFlag.hpp"
+#include "thread.hpp"
+//#include "SharedPtr.hpp"
+#include "runnable.hpp"
+#include "atomic_flag.hpp"
 
 namespace advcpp
 {
