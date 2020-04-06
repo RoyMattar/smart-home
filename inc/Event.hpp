@@ -15,10 +15,10 @@ public:
     typedef std::string EventPayload;
     typedef std::string EventLocation;
 
-    Event ();
+    //Event ();
     Event (const EventType& a_type, const EventTimestamp& a_timestamp
         , const EventPayload& a_payload, const EventLocation& a_location);
-    Event (const std::string& a_str);
+    Event (const std::string& a_eventStr);
     //Event (const Event& a_other) = default;
     //~Event () = default;
     //Event& operator= (const Event& a_other) = default;
@@ -57,7 +57,7 @@ inline Event::EventPayload Event::GetPayload () const NOEXCEPTIONS
 inline Event::EventLocation Event::GetLocation () const NOEXCEPTIONS
 {
     return m_location;
-}
+} 
 
 } // SmartHome
 
