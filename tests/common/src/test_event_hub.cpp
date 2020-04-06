@@ -4,7 +4,7 @@
 namespace test_smart_home
 {
 
-TestEventHub::TestEventHub (const SharedPtr<smart_home::IPullEventBuss<SharedPtr<smart_home::Event> > >& a_pullBus)
+TestEventHub::TestEventHub (const SharedPtr<smart_home::IPullEventBus>& a_pullBus)
     : m_pullBus(a_pullBus)
     , m_subscribers()
 { }

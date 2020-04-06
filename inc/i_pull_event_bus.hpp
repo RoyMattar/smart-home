@@ -10,12 +10,12 @@ namespace smart_home
 class IPullEventBus
 {
 public:
-    virtual ~IPullEventBus () NOEXCEPTIONS;
+    virtual ~IPullEventBus ();
 
     virtual void Pull (SharedPtr<Event>& a_event) = 0;
 };
 
-inline IPullEventBus::~IPullEventBus () NOEXCPETIONS
+inline IPullEventBus::~IPullEventBus ()
 { }
 
 } // smart_home

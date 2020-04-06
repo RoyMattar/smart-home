@@ -50,7 +50,7 @@ inline bool Event::operator== (const Event& a_other) const NOEXCEPTIONS
     return m_type == a_other.m_type
         && m_timestamp == a_other.m_timestamp
         && m_payload == a_other.m_payload
-        && m_location = a_other.m_location;
+        && m_location == a_other.m_location;
 }
 
 inline Event::Type Event::GetType () const NOEXCEPTIONS

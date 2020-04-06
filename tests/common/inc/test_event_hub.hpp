@@ -14,7 +14,7 @@ class TestControllerAgent;
 class TestEventHub
 {
 public:
-    TestEventHub (const SharedPtr<smart_home::IPullEventBuss<SharedPtr<smart_home::Event> > >& a_pullBus);
+    TestEventHub (const SharedPtr<smart_home::IPullEventBus>& a_pullBus);
     //TestEventHub (const TestEventHub& a_other) = default;
     //~TestEventHub () = default;
     //TestEventHub& operator= (const TestEventHub& a_other) = default;
@@ -23,7 +23,7 @@ public:
     void DistributeEvent ();
 
 private:
-    SharedPtr<smart_home::IPullEventBuss<SharedPtr<smart_home::Event> > > m_pullBus;
+    SharedPtr<smart_home::IPullEventBus> m_pullBus;
     std::list<TestControllerAgent> m_subscribers;
 };
 

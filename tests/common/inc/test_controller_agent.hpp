@@ -9,7 +9,7 @@ namespace test_smart_home
 class TestControllerAgent
 {
 public:
-    //TestControllerAgent () = default;
+    TestControllerAgent ();
     //TestControllerAgent (const TestControllerAgent& a_other) = default;
     //~TestControllerAgent () = default;
     //TestControllerAgent& operator= (const TestControllerAgent& a_other) = default;

@@ -11,7 +11,7 @@ namespace test_smart_home
 class TestSensorAgent
 {
 public:
-    TestSensorAgent (const SharedPtr<smart_home::IPushEventBus<SharedPtr<smart_home::Event> > >& a_pushBus);
+    TestSensorAgent (const SharedPtr<smart_home::IPushEventBus>& a_pushBus);
     //TestSensorAgent (const TestSensorAgent& a_other) = default;
     //~TestSensorAgent () = default;
     //TestSensorAgent& operator= (const TestSensorAgent& a_other) = default;
@@ -19,7 +19,7 @@ public:
     void PublishEvent (const smart_home::Event& a_event);
 
 private:
-    SharedPtr<smart_home::IPushEventBus<SharedPtr<smart_home::Event> > > m_pushBus;
+    SharedPtr<smart_home::IPushEventBus> m_pushBus;
 };
 
 } // test_smart_home

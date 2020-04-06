@@ -24,6 +24,7 @@
         "iterator": "cpp",
         "list": "cpp",
         "string": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "memory": "cpp"
     }
 }

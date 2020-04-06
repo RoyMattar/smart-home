@@ -10,12 +10,12 @@ namespace smart_home
 class IPushEventBus
 {
 public:
-    virtual ~IPushEventBus () NOEXCEPTIONS;
+    virtual ~IPushEventBus ();
 
     virtual void Push (const SharedPtr<Event>& a_event) = 0;
 };
 
-inline IPushEventBus::~IPushEventBus () NOEXCPETIONS
+inline IPushEventBus::~IPushEventBus ()
 { }
 
 } // smart_home

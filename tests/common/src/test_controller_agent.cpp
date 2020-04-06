@@ -5,6 +5,10 @@
 namespace test_smart_home
 {
 
+TestControllerAgent::TestControllerAgent ()
+    : m_event("", "", "", "")
+{ }
+
 void TestControllerAgent::PushEvent (const smart_home::Event& a_event)
 {
     m_event = a_event;
