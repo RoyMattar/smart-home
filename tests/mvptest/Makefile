@@ -18,8 +18,8 @@ TEST_INC_DIR = ../common/inc
 TEST_SRC_DIR = ../common/src
 
 TARGET = mvptest
-#SOURCES = $(TARGET).cpp $(SRC_DIR)/Event.cpp $(TEST_SRC_DIR)/TestSensorAgent.cpp $(TEST_SRC_DIR)/TestEventHub.cpp $(TEST_SRC_DIR)/TestControllerAgent.cpp $(SRC_DIR)/AtomicFlag.cpp $(SRC_DIR)/Mutex.cpp $(SRC_DIR)/LockGuard.cpp $(SRC_DIR)/CondVar.cpp
-OBJS = $(TARGET).o $(SRC_DIR)/Event.o $(TEST_SRC_DIR)/TestSensorAgent.o $(TEST_SRC_DIR)/TestEventHub.o $(TEST_SRC_DIR)/TestControllerAgent.o $(SRC_DIR)/AtomicFlag.o $(SRC_DIR)/Mutex.o $(SRC_DIR)/LockGuard.o $(SRC_DIR)/CondVar.o
+#SOURCES = $(TARGET).cpp $(SRC_DIR)/event.cpp $(TEST_SRC_DIR)/test_sensor_agent.cpp $(TEST_SRC_DIR)/test_event_hub.cpp $(TEST_SRC_DIR)/test_controller_agent.cpp $(SRC_DIR)/atomic_flag.cpp $(SRC_DIR)/mutex.cpp $(SRC_DIR)/lock_guard.cpp $(SRC_DIR)/condvar.cpp
+OBJS = $(TARGET).o $(SRC_DIR)/event.o $(TEST_SRC_DIR)/test_sensor_agent.o $(TEST_SRC_DIR)/test_event_hub.o $(TEST_SRC_DIR)/test_controller_agent.o $(SRC_DIR)/atomic_flag.o $(SRC_DIR)/mutex.o $(SRC_DIR)/lock_guard.o $(SRC_DIR)/condvar.o
 
 all: $(TARGET)
 
@@ -29,14 +29,14 @@ check: $(TARGET)
 $(TARGET): $(OBJS)
 
 $(TARGET).o: $(INC_DIR)/mu_test.h 
-$(SRC_DIR)/Event.o: $(INC_DIR)/Event.hpp $(INC_DIR)/common_utils.hpp
-$(TEST_SRC_DIR)/TestSensorAgent.o: $(TEST_INC_DIR)/TestSensorAgent.hpp $(INC_DIR)/common_utils.hpp $(INC_DIR)/iEnqueueableQueue.hpp $(INC_DIR)/Event.hpp
-$(TEST_SRC_DIR)/TestEventHub.o: $(TEST_INC_DIR)/TestEventHub.hpp $(INC_DIR)/common_utils.hpp $(INC_DIR)/iDequeueableQueue.hpp $(INC_DIR)/Event.hpp $(TEST_INC_DIR)/TestControllerAgent.hpp
-$(TEST_SRC_DIR)/TestControllerAgent.o: $(TEST_INC_DIR)/TestControllerAgent.hpp $(INC_DIR)/Event.hpp
-$(SRC_DIR)/AtomicFlag.o: $(INC_DIR)/AtomicFlag.hpp
-$(SRC_DIR)/Mutex.o: $(INC_DIR)/Mutex.hpp
-$(SRC_DIR)/LockGuard.o: $(INC_DIR)/LockGuard.hpp
-$(SRC_DIR)/CondVar.o: $(INC_DIR)/CondVar.hpp
+$(SRC_DIR)/event.o: $(INC_DIR)/event.hpp $(INC_DIR)/common_utils.hpp
+$(TEST_SRC_DIR)/test_sensor_agent.o: $(TEST_INC_DIR)/test_sensor_agent.hpp $(INC_DIR)/common_utils.hpp $(INC_DIR)/i_push_event_bus.hpp $(INC_DIR)/event.hpp
+$(TEST_SRC_DIR)/test_event_hub.o: $(TEST_INC_DIR)/test_event_hub.hpp $(INC_DIR)/common_utils.hpp $(INC_DIR)/i_pull_event_bus.hpp $(INC_DIR)/event.hpp $(TEST_INC_DIR)/test_controller_agent.hpp
+$(TEST_SRC_DIR)/test_controller_agent.o: $(TEST_INC_DIR)/test_controller_agent.hpp $(INC_DIR)/event.hpp
+$(SRC_DIR)/atomic_flag.o: $(INC_DIR)/atomic_flag.hpp
+$(SRC_DIR)/mutex.o: $(INC_DIR)/mutex.hpp
+$(SRC_DIR)/lock_guard.o: $(INC_DIR)/lock_guard.hpp
+$(SRC_DIR)/condvar.o: $(INC_DIR)/condvar.hpp
 
 valgrind: $(TARGET)
 	valgrind ./$(TARGET)

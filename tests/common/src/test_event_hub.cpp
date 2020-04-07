@@ -17,7 +17,7 @@ void TestEventHub::Subscribe (const TestControllerAgent& a_controller)
 void TestEventHub::DistributeEvent ()
 {
     SharedPtr<smart_home::Event> pEvent;
-    m_pullBus->Dequeue(pEvent);
+    m_pullBus->Pull(pEvent);
 
     for (std::list<TestControllerAgent>::iterator itr = m_subscribers.begin()
     ; itr != m_subscribers.end()

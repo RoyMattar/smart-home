@@ -7,15 +7,8 @@
 namespace smart_home
 {
 
-Event::Event ()
-    : m_type()
-    , m_timestamp()
-    , m_payload()
-    , m_location()
-{ }
-
-Event::Event (const EventType& a_type, const EventTimestamp& a_timestamp
-        , const EventPayload& a_payload, const EventLocation& a_location)
+Event::Event (const Type& a_type, const Timestamp& a_timestamp
+        , const Payload& a_payload, const Location& a_location)
     : m_type(a_type)
     , m_timestamp(a_timestamp)
     , m_payload(a_payload)
