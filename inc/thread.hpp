@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <sys/types.h> // useconds_t
 #include "common_utils.hpp"
-#include "runnable.hpp"
+#include "i_runnable.hpp"
 //#include "SharedPtr.hpp"
 #include "atomic_flag.hpp"
 
@@ -16,7 +16,7 @@ namespace advcpp
 class Thread : private Uncopyable
 {
 public:
-    Thread (const SharedPtr<Runnable>& a_pRunnable);
+    Thread (const SharedPtr<IRunnable>& a_pIRunnable);
     ~Thread () NOEXCEPTIONS;
 
     //@brief joins - will go into blocking if thread has not yet terminated
@@ -46,7 +46,7 @@ private:
     static void* threadCallBack (void* a_args);
 
 private:
-    SharedPtr<Runnable> m_pRunnable;
+    SharedPtr<IRunnable> m_runnable;
     pthread_t m_tid;
     AtomicFlag m_joinable;
 };

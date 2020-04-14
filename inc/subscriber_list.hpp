@@ -4,7 +4,7 @@
 #include <list>
 
 #include "common_utils.hpp"
-#include "i_subscriber.hpp"
+#include "i_event_subscriber.hpp"
 #include "event.hpp"
 
 namespace smart_home

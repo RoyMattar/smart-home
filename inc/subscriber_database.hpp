@@ -4,16 +4,16 @@
 #include <tr1/unordered_map>
 
 #include "common_utils.hpp"
-#include "i_registrar.hpp"
-#include "i_distributor.hpp"
-#include "i_subscriber.hpp"
+#include "i_handlers_registrar.hpp"
+#include "i_event_distributor.hpp"
+#include "i_event_subscriber.hpp"
 #include "event.hpp"
 #include "subscriber_list.hpp"
 
 namespace smart_home
 {
 
-class SubscriberDatabase : private advcpp::Uncopyable, public IRegistrar, public IDistributor
+class SubscriberDatabase : private advcpp::Uncopyable, public IHandlersRegistrar, public IEventDistributor
 {
 public:
     //SubscriberDatabase () = default;

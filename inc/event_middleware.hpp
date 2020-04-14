@@ -6,9 +6,9 @@
 #include "common_utils.hpp"
 #include "event.hpp"
 #include "i_pull_event_bus.hpp"
-#include "i_registrar.hpp"
-#include "i_distributor.hpp"
-#include "i_subscriber.hpp"
+#include "i_handlers_registrar.hpp"
+#include "i_event_distributor.hpp"
+#include "i_event_subscriber.hpp"
 
 namespace smart_home
 {
@@ -17,8 +17,8 @@ class EventMiddleware : private advcpp::Uncopyable
 {
 public:
     EventMiddleware (SharedPtr<IPullEventBus> const& a_pullBus,
-        SharedPtr<IRegistrar> const& a_registrar,
-        SharedPtr<IDistributor> const& a_distributor); // or refs?
+        SharedPtr<IHandlersRegistrar> const& a_handlersRegistrar,
+        SharedPtr<IEventDistributor> const& a_eventDistributor); // or refs?
     //~EventMiddleware () = default;
 
     void RequestSubscription (SharedPtr<ISubscriber> const& a_subscriber);
@@ -26,8 +26,8 @@ public:
 
 private:
     SharedPtr<IPullEventBus> m_pullBus;
-    SharedPtr<IRegistrar> m_registrar;
-    SharedPtr<IDistributor> m_distributor;
+    SharedPtr<IHandlersRegistrar> m_handlersRegistrar;
+    SharedPtr<IEventDistributor> m_eventDistributor;
 };
 
 } // smart_home

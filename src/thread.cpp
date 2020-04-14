@@ -6,14 +6,14 @@
 #include <time.h> // struct timespec, clock_gettime()
 #include "thread.hpp"
 //#include "SharedPtr.hpp"
-#include "runnable.hpp"
+#include "i_runnable.hpp"
 #include "atomic_flag.hpp"
 
 namespace advcpp
 {
 
-Thread::Thread (const SharedPtr<Runnable>& a_pRunnable)
-    : m_pRunnable(a_pRunnable)
+Thread::Thread (const SharedPtr<IRunnable>& a_runnable)
+    : m_runnable(a_runnable)
     , m_joinable(true)
 {
     int statusCode = pthread_create(&m_tid, NULL, threadCallBack, this);
@@ -181,16 +181,16 @@ void* Thread::threadCallBack (void* a_this)
 
     try
     {
-        myThis->m_pRunnable->Run();
+        myThis->m_runnable->Run();
     }
     catch (const std::exception& a_e)
     {
         std::cerr << a_e.what() << std::endl;
-        assert(!"Unsafe runnable");
+        assert(!"Unsafe IRunnable");
     }
     catch (...)
     {
-        assert(!"Non documented exception thrown by runnable");
+        assert(!"Non documented exception thrown by IRunnable");
     }
     
     return 0;
