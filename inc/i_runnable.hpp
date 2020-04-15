@@ -6,15 +6,18 @@
 namespace advcpp
 {
 
-class IRunnable : private Unassignable
+class IRunnable : private Unassignable // why?
 {
 public:
     //IRunnable () = default;
     //IRunnable (const IRunnable& a_other) = default;
-    virtual ~IRunnable () { }
+    virtual ~IRunnable ();
 
     virtual void Run () = 0;
 };
+
+inline IRunnable::~IRunnable ()
+{ }
 
 } // advcpp
 

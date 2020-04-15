@@ -2,7 +2,7 @@
 #define I_EVENT_SUBSCRIBER_HPP
 
 #include "common_utils.hpp"
-#include "i_handlers_registrar.hpp"
+#include "i_consumer_registrar.hpp"
 
 namespace smart_home
 {
@@ -12,7 +12,7 @@ class IEventSubscriber
 public:
     virtual ~IEventSubscriber ();
 
-    virtual void Subscribe (SharedPtr<IHandlersRegistrar> const& a_handlersRegistrar);
+    virtual void Subscribe (SharedPtr<IConsumerRegistrar> const& a_consumerRegistrar);
 };
 
 inline IEventSubscriber::~IEventSubscriber ()

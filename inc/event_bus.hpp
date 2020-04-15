@@ -12,7 +12,7 @@
 namespace smart_home
 {
 
-class EventBus : private advcpp::Uncopyable, public IPushEventBus, public IPullEventBus
+class EventBus : public IPushEventBus, public IPullEventBus, private advcpp::Uncopyable
 {
 public:
     EventBus (size_t a_capacity);
@@ -28,8 +28,19 @@ private:
     EventWBQ m_eventWBQ;
 };
 
-inline size_t EventBus::NumOfElems () const NOEXCEPTIONS{
+class EventBusShutdownExc : public IPushEventBusShutdownExc, public IPullEventBusShutdownExc
+{
+    const char* what () const NOEXCEPTIONS;
+};
+
+inline size_t EventBus::NumOfElems () const NOEXCEPTIONS
+{
     return m_eventWBQ.NumOfElems();
+}
+
+inline const char* EventBusShutdownExc::what() const NOEXCEPTIONS
+{
+    return "EventBus is shutting down";
 }
 
 } // smart_home
