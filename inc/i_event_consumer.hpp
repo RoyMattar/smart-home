@@ -11,7 +11,7 @@ class IEventConsumer
 public:
     virtual ~IEventConsumer ();
 
-    virtual void Deliver (SharedPtr<Event> const& a_pEvent);
+    virtual void Consume (SharedPtr<Event> const& a_pEvent);
 };
 
 inline IEventConsumer::~IEventConsumer ()

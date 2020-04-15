@@ -15,7 +15,7 @@ void SimpleEventDistributor::Distribute (SharedPtr<Event> const& a_pEvent,
         i < a_consumerListing->size();
         ++i)
     {
-        (*a_consumerListing)[i]->Deliver(a_pEvent);
+        (*a_consumerListing)[i]->Consume(a_pEvent);
     }
 }
 

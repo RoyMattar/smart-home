@@ -13,8 +13,8 @@ class IConsumerRegistrar
 public:
     virtual ~IConsumerRegistrar ();
 
-    virtual void Register (Event::Type a_eventType, SharedPtr<IEventConsumer> const& a_eventConsumer);
-    virtual void Deregister (Event::Type a_eventType, SharedPtr<IEventConsumer> const& a_eventConsumer);
+    virtual void Register (Event::Type a_eventType, SharedPtr<IEventConsumer> const& a_newConsumer);
+    virtual void Deregister (Event::Type a_eventType, SharedPtr<IEventConsumer> const& a_oldConsumer);
 };
 
 inline IConsumerRegistrar::~IConsumerRegistrar ()
