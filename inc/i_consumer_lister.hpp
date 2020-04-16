@@ -15,7 +15,7 @@ class IConsumerLister
 public:
     virtual ~IConsumerLister ();
 
-    virtual SharedPtr<std::vector<SharedPtr<IEventConsumer> > > List (SharedPtr<Event> const& a_pEvent) const;
+    virtual SharedPtr<std::vector<SharedPtr<IEventConsumer> > > List (SharedPtr<Event> const& a_pEvent) const = 0;
 };
 
 inline IConsumerLister::~IConsumerLister ()

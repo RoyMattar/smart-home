@@ -16,7 +16,7 @@ public:
     virtual ~IEventDistributor ();
 
     virtual void Distribute (SharedPtr<Event> const& a_pEvent,
-        SharedPtr<std::vector<SharedPtr<IEventConsumer> > > const& a_consumerListing) const;
+        SharedPtr<std::vector<SharedPtr<IEventConsumer> > > const& a_consumerListing) const = 0;
 };
 
 inline IEventDistributor::~IEventDistributor ()

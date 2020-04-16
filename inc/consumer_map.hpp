@@ -25,13 +25,18 @@ public:
     //ConsumerMap () = default;
     //~ConsumerMap () = default;
 
-    virtual void Register (Event::Type a_eventType, SharedPtr<IEventConsumer> const& a_newConsumer);
-    virtual void Deregister (Event::Type a_eventType, SharedPtr<IEventConsumer> const& a_oldConsumer);
+    //@exception: may throw std::bad_alloc
+    virtual void Register (Event::Type const& a_eventType, SharedPtr<IEventConsumer> const& a_newConsumer);
+    //@exception: may throw InvalidEventTypeExc if a_eventType not in map, or ... if a_consumerToRemove is not subscribed to a_eventType
+    virtual void Deregister (Event::Type const& a_eventType, SharedPtr<IEventConsumer> const& a_consumerToRemove);
+    //@exception may throw InvalidEventTypeExc if event type of a_pEvent not in map
     virtual SharedPtr<std::vector<SharedPtr<IEventConsumer> > > List (SharedPtr<Event> const& a_pEvent) const;
 
 private:
     std::tr1::unordered_map<Event::Type, SafeConsumerList> m_map;
 };
+
+#include "inl/consumer_map.hxx"
 
 } // smart_home
 
