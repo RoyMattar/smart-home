@@ -6,6 +6,7 @@
 #include "common_utils.hpp"
 #include "i_event_consumer.hpp"
 #include "event.hpp"
+#include "distribution_list.hpp"
 
 namespace smart_home
 {
@@ -15,7 +16,7 @@ class IConsumerLister
 public:
     virtual ~IConsumerLister ();
 
-    virtual SharedPtr<std::vector<SharedPtr<IEventConsumer> > > List (SharedPtr<Event> const& a_pEvent) const = 0;
+    virtual SharedPtr<DistributionList> List (Event::Type const& a_eventType) const = 0;
 };
 
 inline IConsumerLister::~IConsumerLister ()

@@ -11,29 +11,31 @@ struct InvalidEventTypeExc : public std::exception
 template <typename SafeConsumerList>
 void ConsumerMap<SafeConsumerList>::Register (Event::Type const& a_eventType, SharedPtr<IEventConsumer> const& a_newConsumer)
 {
-    m_map[a_eventType].Add(a_newConsumer);
+    // try insert
+    m_map.insert(std::pair<Event::Type, SharedPtr<SafeConsumerList> >(a_eventType, SharedPtr<SafeConsumerList>(new SafeConsumerList())));
+    m_map[a_eventType]->Add(a_newConsumer);
 }
 
 template <typename SafeConsumerList>
 void ConsumerMap<SafeConsumerList>::Deregister (Event::Type const& a_eventType, SharedPtr<IEventConsumer> const& a_consumerToRemove)
 {
-    typename std::tr1::unordered_map<Event::Type, SafeConsumerList>::iterator foundList = m_map.find(a_eventType);
+    typename std::tr1::unordered_map<Event::Type, SharedPtr<SafeConsumerList> >::iterator foundList = m_map.find(a_eventType);
     if (foundList == m_map.end())
     {
         throw InvalidEventTypeExc();
     }
 
-    foundList->second.Remove(a_consumerToRemove);
+    foundList->second->Remove(a_consumerToRemove);
 }
 
 template <typename SafeConsumerList>
-SharedPtr<std::vector<SharedPtr<IEventConsumer> > > ConsumerMap<SafeConsumerList>::List (SharedPtr<Event> const& a_pEvent) const
+SharedPtr<DistributionList> ConsumerMap<SafeConsumerList>::List (Event::Type const& a_eventType) const
 {
-    typename std::tr1::unordered_map<Event::Type, SafeConsumerList>::iterator foundList = m_map.find(a_pEvent->GetType());
+    typename std::tr1::unordered_map<Event::Type, SharedPtr<SafeConsumerList> >::const_iterator foundList = m_map.find(a_eventType);
     if (foundList == m_map.end())
     {
         throw InvalidEventTypeExc();
     }
 
-    return foundList->second.GetCopy();
+    return foundList->second->GetCopy();
 }

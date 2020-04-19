@@ -8,12 +8,9 @@
 namespace smart_home
 {
 
-int TestConsumer::s_id = 0;
-
 TestConsumer::TestConsumer (Event::Type const& a_eventType)
     : m_eventType(a_eventType)
-    , m_id(++s_id)
-    , m_isEventDelivered(false)
+    , m_countDelivered(0)
 { }
 
 void TestConsumer::Subscribe (SharedPtr<IConsumerRegistrar> const& a_consumerRegistrar)
@@ -23,17 +20,17 @@ void TestConsumer::Subscribe (SharedPtr<IConsumerRegistrar> const& a_consumerReg
 
 void TestConsumer::Consume (SharedPtr<Event> const& a_pEvent)
 {
-    m_isEventDelivered = true;
+    ++m_countDelivered;
 }
 
-int TestConsumer::GetID () const
+Event::Type const& TestConsumer::GetType () const
 {
-    return m_id;
+    return m_eventType;
 }
 
-bool TestConsumer::IsEventDelivered () const
+size_t TestConsumer::CountDelivered () const
 {
-    return m_isEventDelivered;
+    return m_countDelivered;
 }
 
 } // smart_home

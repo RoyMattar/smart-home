@@ -6,6 +6,7 @@
 #include "common_utils.hpp"
 #include "event.hpp"
 #include "i_event_consumer.hpp"
+#include "distribution_list.hpp"
 
 namespace smart_home
 {
@@ -16,7 +17,7 @@ public:
     virtual ~IEventDistributor ();
 
     virtual void Distribute (SharedPtr<Event> const& a_pEvent,
-        SharedPtr<std::vector<SharedPtr<IEventConsumer> > > const& a_consumerListing) const = 0;
+        SharedPtr<DistributionList> const& a_consumerListing) const = 0;
 };
 
 inline IEventDistributor::~IEventDistributor ()

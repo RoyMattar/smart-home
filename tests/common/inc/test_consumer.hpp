@@ -1,6 +1,8 @@
 #ifndef TEST_CONSUMER_HPP
 #define TEST_CONSUMER_HPP
 
+#include <cstddef> // size_t
+
 #include "common_utils.hpp"
 #include "i_event_subscriber.hpp"
 #include "i_event_consumer.hpp"
@@ -20,15 +22,12 @@ public:
 
     virtual void Subscribe (SharedPtr<IConsumerRegistrar> const& a_consumerRegistrar);
     virtual void Consume (SharedPtr<Event> const& a_pEvent);
-    int GetID () const;
-    bool IsEventDelivered () const;
+    Event::Type const& GetType () const;
+    size_t CountDelivered () const;
 
 private:
-    static int s_id;
-    
     Event::Type m_eventType;
-    int m_id;
-    bool m_isEventDelivered;
+    size_t m_countDelivered;
 };
 
 } // smart_home
