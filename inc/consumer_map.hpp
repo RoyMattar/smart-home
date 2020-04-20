@@ -2,7 +2,7 @@
 #define CONSUMER_MAP_HPP
 
 #include <tr1/unordered_map>
-#include <vector>
+#include <string>
 
 #include "common_utils.hpp"
 #include "i_consumer_registrar.hpp"
@@ -18,7 +18,7 @@ namespace smart_home
 template <typename SafeConsumerList = ConsumerListMT>
 // require: SafeConsumerList    has void Add(SharedPtr<IEventConsumer>)
 //                              has void Remove(SharedPtr<IEventConsumer>)
-//                              has SharedPtr<ListCopy> GetCopy () const
+//                              has SharedPtr<DistributionList> MakeDistribution () const
 //                              is multithread safe
 class ConsumerMap : public IConsumerRegistrar, public IConsumerLister, private advcpp::Uncopyable
 {
@@ -27,14 +27,19 @@ public:
     //~ConsumerMap () = default;
 
     //@exception: may throw std::bad_alloc
-    virtual void Register (Event::Type const& a_eventType, SharedPtr<IEventConsumer> const& a_newConsumer);
-    //@exception: may throw InvalidEventTypeExc if a_eventType not in map, or ... if a_consumerToRemove is not subscribed to a_eventType
-    virtual void Deregister (Event::Type const& a_eventType, SharedPtr<IEventConsumer> const& a_consumerToRemove);
-    //@exception may throw InvalidEventTypeExc if a_eventType not in map
-    virtual SharedPtr<DistributionList> List (Event::Type const& a_eventType) const;
+    virtual void Register (SharedPtr<IEventConsumer> const& a_newConsumer, Event::Type const& a_eventType, Event::Location const& a_eventLocation);
+    //@exception: may throw EventNotFoundExc if no corresponding event found in the map, or ... if a_consumerToRemove is not subscribed to a_eventType
+    virtual void Deregister (SharedPtr<IEventConsumer> const& a_consumer, Event::Type const& a_eventType, Event::Location const& a_eventLocation);
+    //@exception may throw EventNotFoundExc if no corresponding event found in the map
+    virtual SharedPtr<DistributionList> List (Event::Type const& a_eventType, Event::Location const& a_eventLocation) const;
 
 private:
-    std::tr1::unordered_map<Event::Type, SharedPtr<SafeConsumerList> > m_map;
+    static std::string makeKey (Event::Type const& a_eventType, Event::Location const& a_eventLocation);
+    //@exception may throw EventNotFoundExc if no corresponding event found in the map
+    SharedPtr<DistributionList> makePartialList (Event::Type const& a_eventType, Event::Location const& a_eventLocation) const;
+
+private:
+    std::tr1::unordered_map<std::string, SharedPtr<SafeConsumerList> > m_map;
 };
 
 #include "inl/consumer_map.hxx"

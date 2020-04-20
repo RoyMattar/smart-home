@@ -8,29 +8,20 @@
 namespace smart_home
 {
 
-TestConsumer::TestConsumer (Event::Type const& a_eventType)
+TestConsumer::TestConsumer (Event::Type const& a_eventType, Event::Location const& a_eventLocation)
     : m_eventType(a_eventType)
+    , m_eventLocation(a_eventLocation)
     , m_countDelivered(0)
 { }
 
 void TestConsumer::Subscribe (SharedPtr<IConsumerRegistrar> const& a_consumerRegistrar)
 {
-    a_consumerRegistrar->Register(m_eventType, shared_from_this());
+    a_consumerRegistrar->Register(shared_from_this(), m_eventType, m_eventLocation);
 }
 
 void TestConsumer::Consume (SharedPtr<Event> const& a_pEvent)
 {
     ++m_countDelivered;
-}
-
-Event::Type const& TestConsumer::GetType () const
-{
-    return m_eventType;
-}
-
-size_t TestConsumer::CountDelivered () const
-{
-    return m_countDelivered;
 }
 
 } // smart_home

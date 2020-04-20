@@ -13,11 +13,12 @@ public:
     typedef std::string Type;
     typedef std::string Timestamp;
     typedef std::string Payload;
-    typedef std::string Location;
+    class Location;
 
+public:
     //@brief constructor from event params: type, timestamp, payload & location
-    Event (const Type& a_type, const Timestamp& a_timestamp
-        , const Payload& a_payload, const Location& a_location);
+    Event (Type const& a_type, Timestamp const& a_timestamp
+           , Payload const& a_payload, Location const& a_location);
     //Event (const Event& a_other) = default;
     //~Event () = default;
     //Event& operator= (const Event& a_other) = default;
@@ -25,18 +26,41 @@ public:
     bool operator== (const Event& a_other) const NOEXCEPTIONS;
 
     //@brief returns event type
-    Type GetType () const NOEXCEPTIONS;
+    Type const& GetType () const NOEXCEPTIONS;
     //@brief returns event timestamp
-    Timestamp GetTimestamp () const NOEXCEPTIONS;
+    Timestamp const& GetTimestamp () const NOEXCEPTIONS;
     //@brief returns event payload
-    Payload GetPayload () const NOEXCEPTIONS;
+    Payload const& GetPayload () const NOEXCEPTIONS;
     //@brief returns event location
-    Location GetLocation () const NOEXCEPTIONS;
+    Location const& GetLocation () const NOEXCEPTIONS;
     //@brief prints event to stdout
     void Print () const NOEXCEPTIONS;
 
-    //static void FromBuffer (const char* a_buffer);
-    //static std::string ToStr () const NOEXCEPTIONS;
+public:
+    class Location
+    {
+    public:
+        typedef std::string Floor;
+        typedef std::string Room;
+
+    public:
+        Location (Floor const& a_floor, Room const& a_room);
+        Floor const& GetFloor () const;
+        Room const& GetRoom () const;
+
+        bool operator== (const Location& a_other) const NOEXCEPTIONS;
+
+    public:
+        static const Room ANY_ROOM;
+        static const Floor ANY_FLOOR;
+
+    private:
+        Floor m_floor;
+        Room m_room;
+    };
+
+public:
+    static const Type ANY_TYPE;
 
 private:
     Type m_type;
@@ -50,28 +74,39 @@ inline bool Event::operator== (const Event& a_other) const NOEXCEPTIONS
     return m_type == a_other.m_type
         && m_timestamp == a_other.m_timestamp
         && m_payload == a_other.m_payload
-        && m_location == a_other.m_location;
+        && (m_location.GetFloor() == a_other.m_location.GetFloor()
+        && m_location.GetRoom() == a_other.m_location.GetRoom());
 }
 
-inline Event::Type Event::GetType () const NOEXCEPTIONS
+inline Event::Type const& Event::GetType () const NOEXCEPTIONS
 {
     return m_type;
 }
 
-inline Event::Timestamp Event::GetTimestamp () const NOEXCEPTIONS
+inline Event::Timestamp const& Event::GetTimestamp () const NOEXCEPTIONS
 {
     return m_timestamp;
 }
 
-inline Event::Payload Event::GetPayload () const NOEXCEPTIONS
+inline Event::Payload const& Event::GetPayload () const NOEXCEPTIONS
 {
     return m_payload;
 }
 
-inline Event::Location Event::GetLocation () const NOEXCEPTIONS
+inline Event::Location const& Event::GetLocation () const NOEXCEPTIONS
 {
     return m_location;
 } 
+
+inline Event::Location::Floor const& Event::Location::GetFloor () const
+{
+    return m_floor;
+}
+
+inline Event::Location::Room const& Event::Location::GetRoom () const
+{
+    return m_room;
+}
 
 } // SmartHome
 
