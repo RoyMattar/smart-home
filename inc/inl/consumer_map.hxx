@@ -8,6 +8,14 @@ struct EventNotFoundExc : public std::exception
     }
 };
 
+struct NoConsumersExc : public std::exception
+{
+    const char* what () const NOEXCEPTIONS
+    {
+        return "No consumers found for this event";
+    }
+};
+
 template <typename SafeConsumerList>
 void ConsumerMap<SafeConsumerList>::Register (SharedPtr<IEventConsumer> const& a_newConsumer, Event::Type const& a_eventType, Event::Location const& a_eventLocation)
 {
@@ -47,8 +55,8 @@ SharedPtr<DistributionList> ConsumerMap<SafeConsumerList>::List (Event::Type con
 
     SharedPtr<DistributionList> fullList(specificRoomList);
     fullList->insert(fullList->end(), anyRoomList->begin(), anyRoomList->end());
-    fullList->insert(fullList->end(), anyFloorList()->begin(), anyFloorList->end());
-    fullList->insert(fullList->end(), anyTypeList()->begin(), anyTypeList->end());
+    fullList->insert(fullList->end(), anyFloorList->begin(), anyFloorList->end());
+    fullList->insert(fullList->end(), anyTypeList->begin(), anyTypeList->end());
 
     return fullList;
 }
@@ -69,7 +77,7 @@ SharedPtr<DistributionList> ConsumerMap<SafeConsumerList>::makePartialList (Even
     typename std::tr1::unordered_map<std::string, SharedPtr<SafeConsumerList> >::const_iterator foundList = m_map.find(key);
     if (foundList == m_map.end())
     {
-        throw EventNotFoundExc();
+        return SharedPtr<DistributionList>(new DistributionList());
     }
 
     return foundList->second->MakeDistribution();

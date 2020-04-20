@@ -51,9 +51,9 @@ public:
         bool operator== (const Location& a_other) const NOEXCEPTIONS;
 
     public:
-        static const Room ANY_ROOM;
         static const Floor ANY_FLOOR;
-
+        static const Room ANY_ROOM;
+    
     private:
         Floor m_floor;
         Room m_room;

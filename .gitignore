@@ -1,3 +1,6 @@
+*.o
+*.out
 .vscode
-.json
+launch.json
+settings.json
 .vpp*

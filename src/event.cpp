@@ -7,8 +7,9 @@
 namespace smart_home
 {
 
-const Event::Location::Room Event::Location::ANY_ROOM = "*";
 const Event::Location::Floor Event::Location::ANY_FLOOR = "*";
+
+const Event::Location::Room Event::Location::ANY_ROOM = "*";
 
 Event::Location::Location (Floor const& a_floor, Room const& a_room)
     : m_floor(a_floor)
@@ -21,7 +22,7 @@ bool Event::Location::operator== (const Location& a_other) const NOEXCEPTIONS
         && m_room == a_other.m_room;
 }
 
-const Event::Type Event::ANY_TYPE = "*";
+const Event::Type Event::ANY_TYPE("*");
 
 Event::Event (Type const& a_type, Timestamp const& a_timestamp
              , Payload const& a_payload, Location const& a_location)
