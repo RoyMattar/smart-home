@@ -36,7 +36,7 @@ public:
 private:
     static std::string makeKey (Event::Type const& a_eventType, Event::Location const& a_eventLocation);
     //@exception may throw NoConsumersExc if no consumers were found for the corresponding event
-    SharedPtr<DistributionList> makePartialList (Event::Type const& a_eventType, Event::Location const& a_eventLocation) const;
+    SharedPtr<DistributionList> listCombination (Event::Type const& a_eventType, Event::Location const& a_eventLocation) const;
 
 private:
     std::tr1::unordered_map<std::string, SharedPtr<SafeConsumerList> > m_map;

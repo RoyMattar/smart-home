@@ -43,15 +43,15 @@ void ConsumerMap<SafeConsumerList>::Deregister (SharedPtr<IEventConsumer> const&
 template <typename SafeConsumerList>
 SharedPtr<DistributionList> ConsumerMap<SafeConsumerList>::List (Event::Type const& a_eventType, Event::Location const& a_eventLocation) const
 {
-    SharedPtr<DistributionList> specificRoomList = makePartialList(a_eventType, a_eventLocation);
+    SharedPtr<DistributionList> specificRoomList = listCombination(a_eventType, a_eventLocation);
 
     Event::Location anyRoomLocation(a_eventLocation.GetFloor(), Event::Location::ANY_ROOM);
-    SharedPtr<DistributionList> anyRoomList = makePartialList(a_eventType, anyRoomLocation);
+    SharedPtr<DistributionList> anyRoomList = listCombination(a_eventType, anyRoomLocation);
 
     Event::Location anyFloorLocation(Event::Location::ANY_FLOOR, Event::Location::ANY_ROOM);
-    SharedPtr<DistributionList> anyFloorList = makePartialList(a_eventType, anyFloorLocation);
+    SharedPtr<DistributionList> anyFloorList = listCombination(a_eventType, anyFloorLocation);
 
-    SharedPtr<DistributionList> anyTypeList = makePartialList(Event::ANY_TYPE, anyFloorLocation);
+    SharedPtr<DistributionList> anyTypeList = listCombination(Event::ANY_TYPE, anyFloorLocation);
 
     SharedPtr<DistributionList> fullList(specificRoomList);
     fullList->insert(fullList->end(), anyRoomList->begin(), anyRoomList->end());
@@ -70,7 +70,7 @@ std::string ConsumerMap<SafeConsumerList>::makeKey (Event::Type const& a_eventTy
 }
 
 template <typename SafeConsumerList>
-SharedPtr<DistributionList> ConsumerMap<SafeConsumerList>::makePartialList (Event::Type const& a_eventType, Event::Location const& a_eventLocation) const
+SharedPtr<DistributionList> ConsumerMap<SafeConsumerList>::listCombination (Event::Type const& a_eventType, Event::Location const& a_eventLocation) const
 {
     std::string key = makeKey(a_eventType, a_eventLocation);
 
