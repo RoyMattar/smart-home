@@ -48,5 +48,9 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "map": "cpp"
-    }
+    },
+    "remote.SSH.defaultExtensions": [
+        "ms-vscode.cpptools"
+    ],
+    "remote.restoreForwardedPorts": true
 }

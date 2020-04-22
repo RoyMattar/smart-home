@@ -70,7 +70,7 @@ public:
             subscribers[i]->Subscribe(map);
         }
     }
-} det;
+};
 
 typedef std::vector<SharedPtr<TestConsumer> > DerivedList;
 
@@ -95,6 +95,8 @@ void ConsumeTestEvent (DerivedList const& a_derivedList)
 
 UNIT(T_F_R_reg)
 // light:f1:r3 -> 1, 3, 5, 7
+    TestDetails det;
+
     SharedPtr<DistributionListTagged> list = det.map->List(det.light_F1_R3);
     DerivedList subs = MakeDerived(list);
     ConsumeTestEvent(subs);
@@ -109,6 +111,8 @@ END_UNIT
 
 UNIT(T_F_reg_R_not)
 // light:f1:r5 -> 3, 5, 7
+    TestDetails det;
+    
     SharedPtr<DistributionListTagged> list = det.map->List(det.light_F1_R5);
     DerivedList subs = MakeDerived(list);
     ConsumeTestEvent(subs);
@@ -122,6 +126,8 @@ END_UNIT
 
 UNIT(T_F_reg_R_notAny)
 // light:f2:r5 -> 4, 5, 7
+    TestDetails det;
+    
     SharedPtr<DistributionListTagged> list = det.map->List(det.light_F2_R5);
     DerivedList subs = MakeDerived(list);
     ConsumeTestEvent(subs);
@@ -135,6 +141,8 @@ END_UNIT
 
 UNIT(F_R_reg_T_other)
 // sound:f3:r2 -> 6, 7
+    TestDetails det;
+    
     SharedPtr<DistributionListTagged> list = det.map->List(det.sound_F3_R2);
     DerivedList subs = MakeDerived(list);
     ConsumeTestEvent(subs);
@@ -147,6 +155,8 @@ END_UNIT
 
 UNIT(T_F_R_notReg)
 // fire:f4:r3 -> 7
+    TestDetails det;
+    
     SharedPtr<DistributionListTagged> list = det.map->List(det.fire_F4_R3);
     DerivedList subs = MakeDerived(list);
     ConsumeTestEvent(subs);
