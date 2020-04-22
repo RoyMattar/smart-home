@@ -18,8 +18,8 @@ TEST_INC_DIR = ../common/inc
 TEST_SRC_DIR = ../common/src
 
 TARGET = listing_test
-#SOURCES = $(TARGET).cpp $(SRC_DIR)/event.cpp $(SRC_DIR)/event_topic.cpp $(SRC_DIR)/consumer_list_tagged_mt.cpp $(SRC_DIR)/mutex.cpp $(SRC_DIR)/lock_guard.cpp $(TEST_SRC_DIR)/test_consumer.cpp
-OBJS = $(TARGET).o $(SRC_DIR)/event.o $(SRC_DIR)/event_topic.o $(SRC_DIR)/consumer_list_tagged_mt.o $(SRC_DIR)/mutex.o $(SRC_DIR)/lock_guard.o $(TEST_SRC_DIR)/test_consumer.o
+#SOURCES = $(TARGET).cpp $(SRC_DIR)/event.cpp $(SRC_DIR)/event_topic.cpp $(SRC_DIR)/consumer_list_tagged_mt.cpp $(SRC_DIR)/cyclic_tag.cpp $(SRC_DIR)/mutex.cpp $(SRC_DIR)/lock_guard.cpp $(TEST_SRC_DIR)/test_consumer.cpp
+OBJS = $(TARGET).o $(SRC_DIR)/event.o $(SRC_DIR)/event_topic.o $(SRC_DIR)/consumer_list_tagged_mt.o $(SRC_DIR)/cyclic_tag.o $(SRC_DIR)/mutex.o $(SRC_DIR)/lock_guard.o $(TEST_SRC_DIR)/test_consumer.o
 
 all: $(TARGET)
 
@@ -33,6 +33,7 @@ $(SRC_DIR)/event.o: $(INC_DIR)/event.hpp $(INC_DIR)/common_utils.hpp
 $(SRC_DIR)/event_topic.o: $(INC_DIR)/event_topic.hpp $(INC_DIR)/event.hpp $(INC_DIR)/common_utils.hpp
 $(SRC_DIR)/consumer_list_tagged_mt.o: $(INC_DIR)/consumer_list_tagged_mt.hpp $(INC_DIR)/common_utils.hpp  \
 	 $(INC_DIR)/i_event_consumer.hpp $(INC_DIR)/event.hpp $(INC_DIR)/mutex.hpp
+$(SRC_DIR)/cyclic_tag.o: $(INC_DIR)/cyclic_tag.hpp
 $(SRC_DIR)/mutex.o: $(INC_DIR)/mutex.hpp $(INC_DIR)/common_utils.hpp
 $(SRC_DIR)/lock_guard.o: $(INC_DIR)/lock_guard.hpp $(INC_DIR)/mutex.hpp $(INC_DIR)/common_utils.hpp
 $(TEST_SRC_DIR)/test_consumer.o: $(TEST_INC_DIR)/test_consumer.hpp $(INC_DIR)/i_event_consumer.hpp $(INC_DIR)/i_event_subscriber.hpp

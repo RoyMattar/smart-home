@@ -8,6 +8,7 @@
 #include "event.hpp"
 #include "event_topic.hpp"
 #include "test_consumer.hpp"
+#include "cyclic_tag.hpp"
 #include "consumer_map_tagged.hpp"
 #include "distribution_list_tagged.hpp"
 
@@ -36,16 +37,16 @@ public:
     SharedPtr<ConsumerMapTagged<> > map;
     EventTopic light_F1_R3;     //sub1
     EventTopic light_F1_R4;     //sub2
-    EventTopic light_F1_Rany;   //sub3 ***
+    EventTopic light_F1_Rany;   //sub3
     EventTopic light_F2_R5;     //sub4
     EventTopic light_Fany_Rany; //sub5
     EventTopic sound_F3_R2;     //sub6
-    EventTopic Tany_Fany_Rany;  //sub7 ***
+    EventTopic Tany_Fany_Rany;  //sub7
     EventTopic light_F1_R5;     //not a sub
     EventTopic fire_F4_R3;      //not a sub
 
     TestDetails ()
-        : map(new ConsumerMapTagged<>())
+        : map(new ConsumerMapTagged<>(CyclicTag(1, 4)))
         , light_F1_R3("light", Event::Location("1", "3"))
         , light_F1_R4("light", Event::Location("1", "4"))
         , light_F1_Rany("light", Event::Location("1", EventTopic::ANY_ROOM))
