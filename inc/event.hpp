@@ -18,12 +18,10 @@ public:
 public:
     //@brief constructor from event params: type, timestamp, payload & location
     Event (Type const& a_type, Timestamp const& a_timestamp
-           , Payload const& a_payload, Location const& a_location);
+           , Payload const& a_payload, Location const& a_location) NOEXCEPTIONS;
     //Event (const Event& a_other) = default;
     //~Event () = default;
     //Event& operator= (const Event& a_other) = default;
-
-    bool operator== (const Event& a_other) const NOEXCEPTIONS;
 
     //@brief returns event type
     Type const& GetType () const NOEXCEPTIONS;
@@ -47,20 +45,11 @@ public:
         Location (Floor const& a_floor, Room const& a_room);
         Floor const& GetFloor () const;
         Room const& GetRoom () const;
-
-        bool operator== (const Location& a_other) const NOEXCEPTIONS;
-
-    public:
-        static const Floor ANY_FLOOR;
-        static const Room ANY_ROOM;
-    
+        
     private:
         Floor m_floor;
         Room m_room;
     };
-
-public:
-    static const Type ANY_TYPE;
 
 private:
     Type m_type;
@@ -69,44 +58,27 @@ private:
     Location m_location;
 };
 
-inline bool Event::operator== (const Event& a_other) const NOEXCEPTIONS
+inline bool operator== (Event::Location const& a_firstLocation, Event::Location const& a_secondLocation) NOEXCEPTIONS
 {
-    return m_type == a_other.m_type
-        && m_timestamp == a_other.m_timestamp
-        && m_payload == a_other.m_payload
-        && (m_location.GetFloor() == a_other.m_location.GetFloor()
-        && m_location.GetRoom() == a_other.m_location.GetRoom());
+    return a_firstLocation.GetFloor() == a_secondLocation.GetFloor()
+        && a_firstLocation.GetRoom() == a_secondLocation.GetRoom();
 }
 
-inline Event::Type const& Event::GetType () const NOEXCEPTIONS
+inline bool operator== (Event const& a_firstEvent, Event const& a_secondEvent) NOEXCEPTIONS
 {
-    return m_type;
+    return a_firstEvent.GetType() == a_secondEvent.GetType()
+        && a_firstEvent.GetTimestamp() == a_secondEvent.GetTimestamp()
+        && a_firstEvent.GetPayload() == a_secondEvent.GetPayload()
+        && a_firstEvent.GetLocation() == a_secondEvent.GetLocation();
 }
 
-inline Event::Timestamp const& Event::GetTimestamp () const NOEXCEPTIONS
-{
-    return m_timestamp;
-}
+inline Event::Type const& Event::GetType () const NOEXCEPTIONS { return m_type; }
+inline Event::Timestamp const& Event::GetTimestamp () const NOEXCEPTIONS { return m_timestamp; }
+inline Event::Payload const& Event::GetPayload () const NOEXCEPTIONS { return m_payload; }
+inline Event::Location const& Event::GetLocation () const NOEXCEPTIONS { return m_location; }
 
-inline Event::Payload const& Event::GetPayload () const NOEXCEPTIONS
-{
-    return m_payload;
-}
-
-inline Event::Location const& Event::GetLocation () const NOEXCEPTIONS
-{
-    return m_location;
-} 
-
-inline Event::Location::Floor const& Event::Location::GetFloor () const
-{
-    return m_floor;
-}
-
-inline Event::Location::Room const& Event::Location::GetRoom () const
-{
-    return m_room;
-}
+inline Event::Location::Floor const& Event::Location::GetFloor () const { return m_floor; }
+inline Event::Location::Room const& Event::Location::GetRoom () const { return m_room; }
 
 } // SmartHome
 

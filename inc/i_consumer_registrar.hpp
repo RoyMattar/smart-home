@@ -2,7 +2,7 @@
 #define I_CONSUMER_REGISTRAR_HPP
 
 #include "common_utils.hpp"
-#include "event.hpp"
+#include "event_topic.hpp"
 #include "i_event_consumer.hpp"
 
 namespace smart_home
@@ -13,12 +13,11 @@ class IConsumerRegistrar
 public:
     virtual ~IConsumerRegistrar ();
 
-    virtual void Register (SharedPtr<IEventConsumer> const& a_newConsumer, Event::Type const& a_eventType, Event::Location const& a_eventLocation) = 0;
-    virtual void Deregister (SharedPtr<IEventConsumer> const& a_consumer, Event::Type const& a_eventType, Event::Location const& a_eventLocation) = 0;
+    virtual bool Register (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_newConsumer) = 0;
+    virtual bool Deregister (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_consumer) = 0;
 };
 
-inline IConsumerRegistrar::~IConsumerRegistrar ()
-{ }
+inline IConsumerRegistrar::~IConsumerRegistrar () { }
 
 } // smart_home
 
