@@ -14,7 +14,7 @@ namespace advcpp
 
 Thread::Thread (const SharedPtr<IRunnable>& a_runnable)
     : m_runnable(a_runnable)
-    , m_joinable(true)
+    , m_isJoinable(true)
 {
     int statusCode = pthread_create(&m_tid, NULL, threadCallBack, this);
     if (0 != statusCode) {
@@ -35,7 +35,7 @@ Thread::Thread (const SharedPtr<IRunnable>& a_runnable)
 
 Thread::~Thread () NOEXCEPTIONS
 {
-    if (m_joinable)
+    if (m_isJoinable)
     {
         assert(!"Thread is left joinable");
         std::terminate();
@@ -44,7 +44,7 @@ Thread::~Thread () NOEXCEPTIONS
 
 void Thread::Join ()
 {
-    if (!m_joinable)
+    if (!m_isJoinable)
     {
         return;
     }
@@ -66,12 +66,12 @@ void Thread::Join ()
             assert(!"Non documented pthread_join() error");
     }
 
-    m_joinable = false;
+    m_isJoinable = false;
 }
 
 bool Thread::TryJoin ()
 {
-    if (!m_joinable)
+    if (!m_isJoinable)
     {
         return true;
     }
@@ -99,13 +99,13 @@ bool Thread::TryJoin ()
             assert(!"Non documented pthread_tryjoin_np() error");
     }
 
-    m_joinable = false;
+    m_isJoinable = false;
     return joined;
 }
 
 bool Thread::TimedJoin (useconds_t a_timeout)
 {
-    if (!m_joinable)
+    if (!m_isJoinable)
     {
         return true;
     }
@@ -137,13 +137,13 @@ bool Thread::TimedJoin (useconds_t a_timeout)
             assert(!"Non documented pthread_timedjoin_np() error");
     }
 
-    m_joinable = false;
+    m_isJoinable = false;
     return joined;
 }
 
 void Thread::Detach () NOEXCEPTIONS
 {
-    if (!m_joinable)
+    if (!m_isJoinable)
     {
         return;
     }
@@ -162,10 +162,10 @@ void Thread::Detach () NOEXCEPTIONS
             assert(!"Non documented pthread_detach() error");
     }
 
-    m_joinable = false;
+    m_isJoinable = false;
 }
 
-void Thread::Cancel ()
+void Thread::CancelAsync ()
 {
     int statusCode = pthread_cancel(m_tid);
     if (ESRCH == statusCode)

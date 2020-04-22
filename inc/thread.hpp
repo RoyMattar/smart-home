@@ -37,10 +37,10 @@ public:
     //@warning a detached thread could survive until the end of the program while still not having finished its work
     void Detach () NOEXCEPTIONS;
     //@retval true if none of Join/TryJoin/TimedJoin/Detach had been called, false otherwise
-    bool Joinable () const NOEXCEPTIONS;
+    bool IsJoinable () const NOEXCEPTIONS;
     //@brief cancells the thread (asynchronous - not delayed until next cancellation point)
     //@exception may throw ThreadUncancellableExc if thread had already been joined/detached
-    void Cancel ();
+    void CancelAsync ();
 
 private:
     static void* threadCallBack (void* a_args);
@@ -48,7 +48,7 @@ private:
 private:
     SharedPtr<IRunnable> m_runnable;
     pthread_t m_tid;
-    AtomicFlag m_joinable;
+    AtomicFlag m_isJoinable;
 };
 
 struct ThreadNoResourcesExc : public std::exception
@@ -76,9 +76,9 @@ struct ThreadUncancellableExc : public std::exception
     const char* what () const NOEXCEPTIONS;
 };
 
-inline bool Thread::Joinable () const NOEXCEPTIONS
+inline bool Thread::IsJoinable () const NOEXCEPTIONS
 {
-    return m_joinable;
+    return m_isJoinable;
 }
 
 inline const char* ThreadNoResourcesExc::what () const NOEXCEPTIONS
