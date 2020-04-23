@@ -46,7 +46,7 @@ public:
     EventTopic fire_F4_R3;      //not a sub
 
     TestDetails ()
-        : map(new ConsumerMapTagged<>(CyclicTag(1, 4)))
+        : map(new ConsumerMapTagged<>(1, 4))
         , light_F1_R3("light", Event::Location("1", "3"))
         , light_F1_R4("light", Event::Location("1", "4"))
         , light_F1_Rany("light", Event::Location("1", EventTopic::ANY_ROOM))

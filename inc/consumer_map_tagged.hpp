@@ -2,8 +2,6 @@
 #define CONSUMER_MAP_TAGGED_HPP
 
 #include <tr1/unordered_map>
-#include <utility> // std::pair
-#include <sys/sysinfo.h> // get_nprocs()
 
 #include "common_utils.hpp"
 #include "i_consumer_registrar.hpp"
@@ -13,6 +11,7 @@
 #include "event_topic.hpp"
 #include "consumer_list_tagged_mt.hpp"
 #include "distribution_list_tagged.hpp"
+#include "group_tag.hpp"
 
 namespace smart_home
 {
@@ -27,7 +26,7 @@ template <typename SafeTaggedList = ConsumerListTaggedMT>
 class ConsumerMapTagged : public IConsumerRegistrar, public IConsumerLister, private advcpp::Uncopyable
 {
 public:
-    ConsumerMapTagged (ConsumerTag a_maxTag = defaultMaxTag());
+    ConsumerMapTagged (GroupTag a_firstTag, GroupTag a_numOfTags);
     //~ConsumerMapTagged () = default;
 
     //@retval: true if successfully registered, false if consumer had already been registered to a_eventTopic
@@ -39,11 +38,13 @@ public:
     virtual SharedPtr<DistributionListTagged> List (EventTopic const& a_eventTopic) const;
 
 private:
-    typedef std::tr1::unordered_map<IEventConsumer*, ConsumerTag> TagMap;
+    typedef std::tr1::unordered_map<IEventConsumer*, GroupTag> TagMap;
     typedef std::tr1::unordered_map<EventTopic, SharedPtr<SafeTaggedList> , EventTopicHasher> ListMap;
 
 private:
-    static ConsumerTag defaultMaxTag ();
+    bool tryInsertNewTag (SharedPtr<IEventConsumer> const& a_newConsumer);
+    bool tryInsertNewTopic (EventTopic const& a_eventTopic);
+    bool tryAddNewConsumer (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_newConsumer);
     SharedPtr<DistributionListTagged> listCombination (EventTopic const& a_eventTopic) const;
     SharedPtr<DistributionListTagged> listSpecificRoom (EventTopic const& a_eventTopic) const;
     SharedPtr<DistributionListTagged> listAnyRoom (Event::Type const& a_eventType, Event::Location::Floor const& a_eventFloor) const;
@@ -54,8 +55,7 @@ private:
 private:
     TagMap m_tagMap;
     ListMap m_listMap;
-    ConsumerTag m_tagRoundRobin;
-    ConsumerTag m_maxTag;
+    CyclicTag m_cyclicTag;
 };
 
 #include "inl/consumer_map_tagged.hxx"

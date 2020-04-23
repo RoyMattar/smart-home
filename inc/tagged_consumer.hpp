@@ -4,13 +4,13 @@
 #include <utility> // std::pair
 
 #include "common_utils.hpp"
-#include "consumer_tag.hpp"
+#include "group_tag.hpp"
 #include "i_event_consumer.hpp"
 
 namespace smart_home
 {
 
-typedef std::pair<ConsumerTag, SharedPtr<IEventConsumer> > TaggedConsumer;
+typedef std::pair<GroupTag, SharedPtr<IEventConsumer> > TaggedConsumer;
 
 } // smart_home
 

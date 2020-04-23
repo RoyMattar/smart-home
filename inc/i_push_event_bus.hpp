@@ -15,7 +15,7 @@ public:
     virtual ~IPushEventBus ();
 
     //@exception: throws IPushEventBusShutdownExc
-    virtual void Push (const SharedPtr<Event>& a_event) = 0;
+    virtual void Push (SharedPtr<Event> const& a_pEvent) = 0;
 };
 
 class IPushEventBusShutdownExc : public std::exception
@@ -24,11 +24,9 @@ public:
     virtual ~IPushEventBusShutdownExc ();
 };
 
-inline IPushEventBus::~IPushEventBus ()
-{ }
+IPushEventBus::~IPushEventBus () { }
 
-inline IPushEventBusShutdownExc::~IPushEventBusShutdownExc ()
-{ }
+IPushEventBusShutdownExc::~IPushEventBusShutdownExc () { }
 
 } // smart_home
 

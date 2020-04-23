@@ -17,7 +17,7 @@ public:
     virtual bool Deregister (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_consumer) = 0;
 };
 
-inline IConsumerRegistrar::~IConsumerRegistrar () { }
+IConsumerRegistrar::~IConsumerRegistrar () { }
 
 } // smart_home
 

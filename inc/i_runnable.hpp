@@ -16,8 +16,7 @@ public:
     virtual void Run () = 0;
 };
 
-inline IRunnable::~IRunnable ()
-{ }
+IRunnable::~IRunnable () { }
 
 } // advcpp
 

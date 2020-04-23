@@ -15,7 +15,7 @@ public:
     virtual ~IPullEventBus ();
 
     //@exception: throws IPullEventBusShutdownExc
-    virtual void Pull (SharedPtr<Event>& a_event) = 0;
+    virtual void Pull (SharedPtr<Event>& a_pEvent) = 0;
 };
 
 class IPullEventBusShutdownExc : public std::exception
@@ -24,11 +24,9 @@ public:
     virtual ~IPullEventBusShutdownExc ();
 };
 
-inline IPullEventBus::~IPullEventBus ()
-{ }
+IPullEventBus::~IPullEventBus () { }
 
-inline IPullEventBusShutdownExc::~IPullEventBusShutdownExc ()
-{ }
+IPullEventBusShutdownExc::~IPullEventBusShutdownExc () { }
 
 } // smart_home
 

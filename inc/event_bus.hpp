@@ -18,14 +18,15 @@ public:
     EventBus (size_t a_capacity);
     //~EventBus () = default;
 
-    virtual void Push (const SharedPtr<Event>& a_event);
-    virtual void Pull (SharedPtr<Event>& a_event);
+    virtual void Push (SharedPtr<Event> const& a_pEvent);
+    virtual void Pull (SharedPtr<Event>& a_pEvent);
     size_t NumOfElems () const NOEXCEPTIONS;
 
 private:
-    typedef advcpp::WaitableBoundedQueue<SharedPtr<Event> > EventWBQ;
+    typedef advcpp::WaitableBoundedQueue<SharedPtr<Event> > BusType;
 
-    EventWBQ m_eventWBQ;
+private:
+    BusType m_bus;
 };
 
 class EventBusShutdownExc : public IPushEventBusShutdownExc, public IPullEventBusShutdownExc
@@ -35,12 +36,12 @@ class EventBusShutdownExc : public IPushEventBusShutdownExc, public IPullEventBu
 
 inline size_t EventBus::NumOfElems () const NOEXCEPTIONS
 {
-    return m_eventWBQ.NumOfElems();
+    return m_bus.NumOfElems();
 }
 
 inline const char* EventBusShutdownExc::what() const NOEXCEPTIONS
 {
-    return "EventBus is shutting down";
+    return "Event bus is shutting down";
 }
 
 } // smart_home

@@ -14,8 +14,7 @@ public:
     virtual void Consume (SharedPtr<Event> const& a_pEvent) = 0;
 };
 
-inline IEventConsumer::~IEventConsumer ()
-{ }
+IEventConsumer::~IEventConsumer () { }
 
 } // smart_home
 

@@ -1,5 +1,6 @@
 #include <stdexcept> // std::exception
 #include <string> // std::tr1::hash<std::string>
+#include <utility> // std::pair
 
 struct EventTopicNotFoundExc : public std::exception
 {
@@ -21,26 +22,24 @@ struct EventTopicHasher
 };
 
 template <typename SafeTaggedList>
-ConsumerMapTagged<SafeTaggedList>::ConsumerMapTagged (ConsumerTag a_maxTag)
+ConsumerMapTagged<SafeTaggedList>::ConsumerMapTagged (GroupTag a_firstTag, GroupTag a_numOfTags)
     : m_tagMap()
     , m_listMap()
-    , m_tagRoundRobin(1)
-    , m_maxTag(a_maxTag)
+    , m_cyclicTag(a_firstTag, a_numOfTags)
 { }
 
 template <typename SafeTaggedList>
 bool ConsumerMapTagged<SafeTaggedList>::Register (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_newConsumer)
 {
-    // try-insert a new tag
-    IEventConsumer* consumerPtr = a_newConsumer.get();
-    ConsumerTag consumerTag = m_tagRoundRobin++;
-    m_tagMap.insert(std::make_pair(consumerPtr, consumerTag));
-
-    // try-insert a new topic
-    m_listMap.insert(std::make_pair(a_eventTopic, SharedPtr<SafeTaggedList>(new SafeTaggedList())));
+    bool hasConsumerNewTag = tryInsertNewTag(a_newConsumer);
+    if (hasConsumerNewTag)
+    {
+        ++m_cyclicTag;
+    }
     
-    // try-add a new consumer: ConsumerTag + SharedPtr<IEventConsumer>
-    return m_listMap[a_eventTopic]->Add(TaggedConsumer(m_tagMap[consumerPtr], a_newConsumer));
+    tryInsertNewTopic(a_eventTopic);
+
+    return tryAddNewConsumer(a_eventTopic, a_newConsumer);
 }
 
 template <typename SafeTaggedList>
@@ -49,14 +48,14 @@ bool ConsumerMapTagged<SafeTaggedList>::Deregister (EventTopic const& a_eventTop
     // get tag for a_consumer
     typename TagMap::const_iterator tagPairItr = m_tagMap.find(a_consumer.get());
     if (tagPairItr == m_tagMap.end()) { return false; }
-    ConsumerTag consumerTag = tagPairItr->second;
+    GroupTag groupTag = tagPairItr->second;
 
     // get list for a_eventTopic
     typename ListMap::iterator listPairItr = m_listMap.find(a_eventTopic);
     if (listPairItr == m_listMap.end()) { throw EventTopicNotFoundExc(); }
     SharedPtr<SafeTaggedList> pConsumerList = listPairItr->second;
 
-    return pConsumerList->Remove(TaggedConsumer(consumerTag, a_consumer));
+    return pConsumerList->Remove(TaggedConsumer(groupTag, a_consumer));
 }
 
 template <typename SafeTaggedList>
@@ -71,9 +70,29 @@ SharedPtr<DistributionListTagged> ConsumerMapTagged<SafeTaggedList>::List (Event
 }
 
 template <typename SafeTaggedList>
-ConsumerTag ConsumerMapTagged<SafeTaggedList>::defaultMaxTag ()
+bool ConsumerMapTagged<SafeTaggedList>::tryInsertNewTag (SharedPtr<IEventConsumer> const& a_newConsumer)
 {
-    return get_nprocs() * 4;
+    IEventConsumer* consumerRawPtr = a_newConsumer.get();
+    GroupTag groupTag = m_cyclicTag.GetCurrent();
+
+    std::pair<typename TagMap::iterator, bool> insertTagResult
+        = m_tagMap.insert(std::make_pair(consumerRawPtr, groupTag));
+    return insertTagResult.second;
+}
+
+template <typename SafeTaggedList>
+bool ConsumerMapTagged<SafeTaggedList>::tryInsertNewTopic (EventTopic const& a_eventTopic)
+{
+    std::pair<typename ListMap::iterator, bool> insertListResult
+        = m_listMap.insert(std::make_pair(a_eventTopic, SharedPtr<SafeTaggedList>(new SafeTaggedList())));
+    return insertListResult.second;
+}
+
+template <typename SafeTaggedList>
+bool ConsumerMapTagged<SafeTaggedList>::tryAddNewConsumer (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_newConsumer)
+{
+    IEventConsumer* consumerRawPtr = a_newConsumer.get();
+    return m_listMap[a_eventTopic]->Add(TaggedConsumer(m_tagMap[consumerRawPtr], a_newConsumer));
 }
 
 template <typename SafeTaggedList>

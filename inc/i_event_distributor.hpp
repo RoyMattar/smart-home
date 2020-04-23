@@ -1,12 +1,8 @@
 #ifndef I_EVENT_DISTRIBUTOR_HPP
 #define I_EVENT_DISTRIBUTOR_HPP
 
-#include <vector>
-
 #include "common_utils.hpp"
-#include "event.hpp"
-#include "i_event_consumer.hpp"
-#include "distribution_list.hpp"
+#include "distribution_list_tagged.hpp"
 
 namespace smart_home
 {
@@ -17,11 +13,10 @@ public:
     virtual ~IEventDistributor ();
 
     virtual void Distribute (SharedPtr<Event> const& a_pEvent,
-        SharedPtr<DistributionList> const& a_consumerListing) const = 0;
+                             SharedPtr<DistributionListTagged> const& a_distributionListTagged) = 0;
 };
 
-inline IEventDistributor::~IEventDistributor ()
-{ }
+IEventDistributor::~IEventDistributor () { }
 
 } // smart_home
 

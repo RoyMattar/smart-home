@@ -9,14 +9,14 @@ namespace smart_home
 {
 
 EventBus::EventBus (size_t a_capacity)
-    : m_eventWBQ(a_capacity)
+    : m_bus(a_capacity)
 { }
 
-void EventBus::Push (const SharedPtr<Event>& a_event)
+void EventBus::Push (SharedPtr<Event> const& a_pEvent)
 {
     try
     {
-        m_eventWBQ.Enqueue(a_event);
+        m_bus.Enqueue(a_pEvent);
     }
     catch (advcpp::WaitableBoundedQueueShutdownExc const&)
     {
@@ -24,11 +24,11 @@ void EventBus::Push (const SharedPtr<Event>& a_event)
     }
 }
 
-void EventBus::Pull (SharedPtr<Event>& a_event)
+void EventBus::Pull (SharedPtr<Event>& a_pEvent)
 {
     try
     {
-        m_eventWBQ.Dequeue(a_event);
+        m_bus.Dequeue(a_pEvent);
     }
     catch (advcpp::WaitableBoundedQueueShutdownExc const&)
     {
