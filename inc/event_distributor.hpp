@@ -17,7 +17,7 @@ namespace smart_home
 class EventDistributor : public IEventDistributor
 {
 public:
-    EventDistributor (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedChannels);
+    EventDistributor (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedPushChannels);
     //EventDistributor (EventDistributor const& a_other) = default;
     //~EventDistributor () = default;
     //EventDistributor& operator= (EventDistributor const& a_other) = default;

@@ -10,10 +10,10 @@
 namespace smart_home
 {
 
-EventDistributor::EventDistributor (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedChannels)
+EventDistributor::EventDistributor (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedPushChannels)
     : m_channelMap()
 {
-    mapTaggedChannels(a_taggedChannels);
+    mapTaggedChannels(a_taggedPushChannels);
 }
 
 void EventDistributor::Distribute (SharedPtr<Event> const& a_pEvent,
