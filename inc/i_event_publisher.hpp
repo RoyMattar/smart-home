@@ -14,7 +14,7 @@ public:
     virtual void Publish (Event const& a_event) = 0;
 };
 
-IEventPublisher::~IEventPublisher () { }
+inline IEventPublisher::~IEventPublisher () { }
 
 } // smart_home
 

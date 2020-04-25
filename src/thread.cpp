@@ -52,6 +52,7 @@ void Thread::Join ()
     switch (pthread_join(m_tid, NULL))
     {
         case 0:
+            m_isJoinable = false;
             break;
         case EDEADLK:
             throw ThreadDeadlockExc();
@@ -65,8 +66,6 @@ void Thread::Join ()
         default:
             assert(!"Non documented pthread_join() error");
     }
-
-    m_isJoinable = false;
 }
 
 bool Thread::TryJoin ()
@@ -82,6 +81,7 @@ bool Thread::TryJoin ()
     {
         case 0:
             joined = true;
+            m_isJoinable = false;
             break;
         case EBUSY:
             //thread has not yet terminated
@@ -99,7 +99,6 @@ bool Thread::TryJoin ()
             assert(!"Non documented pthread_tryjoin_np() error");
     }
 
-    m_isJoinable = false;
     return joined;
 }
 
@@ -120,6 +119,7 @@ bool Thread::TimedJoin (useconds_t a_timeout)
     {
         case 0:
             joined = true;
+            m_isJoinable = false;
             break;
         case ETIMEDOUT:
             //timed out before thread has terminated
@@ -137,7 +137,6 @@ bool Thread::TimedJoin (useconds_t a_timeout)
             assert(!"Non documented pthread_timedjoin_np() error");
     }
 
-    m_isJoinable = false;
     return joined;
 }
 
@@ -151,6 +150,7 @@ void Thread::Detach () NOEXCEPTIONS
     switch (pthread_detach(m_tid))
     {
         case 0:
+            m_isJoinable = false;
             break;
         case EINVAL:
             assert(!"Thread was not created as a joinable thread");
@@ -161,8 +161,6 @@ void Thread::Detach () NOEXCEPTIONS
         default:
             assert(!"Non documented pthread_detach() error");
     }
-
-    m_isJoinable = false;
 }
 
 void Thread::CancelAsync ()

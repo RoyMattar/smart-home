@@ -1,6 +1,19 @@
+# objects
 *.o
-*.out
+# dependencies
+*.d
+# shared objects
+*.so
+
+# test executables
+*test$
+# don't ignore test directories
+!*test/
+
+# vs config
 .vscode
 launch.json
 settings.json
+
+# visual paradigm diagrams
 .vpp*

@@ -11,6 +11,7 @@
 #include "event_topic.hpp"
 #include "consumer_list_tagged_mt.hpp"
 #include "distribution_list_tagged.hpp"
+#include "cyclic_tag.hpp"
 #include "group_tag.hpp"
 
 namespace smart_home
@@ -26,13 +27,13 @@ template <typename SafeTaggedList = ConsumerListTaggedMT>
 class ConsumerMapTagged : public IConsumerRegistrar, public IConsumerLister, private advcpp::Uncopyable
 {
 public:
-    ConsumerMapTagged (GroupTag a_firstTag, GroupTag a_numOfTags);
+    ConsumerMapTagged (CyclicTag const& a_cyclicTag);
     //~ConsumerMapTagged () = default;
 
     //@retval: true if successfully registered, false if consumer had already been registered to a_eventTopic
     virtual bool Register (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_newConsumer);
     //@retval: true if successfully deregistered, false if consumer is not registered to a_eventTopic
-    //@exception: may throw EventTopicNotFoundExc if a_eventTopic is not in map
+    //@exception: throws std::out_of_range if a_eventTopic is not in map
     virtual bool Deregister (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_consumer);
     //@retval: list of tagged consumers registered to a_eventTopic; if a_eventTopic is not found, returned list will be empty
     virtual SharedPtr<DistributionListTagged> List (EventTopic const& a_eventTopic) const;

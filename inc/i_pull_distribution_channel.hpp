@@ -3,6 +3,7 @@
 
 #include <stdexcept> // std::exception
 
+#include "common_utils.hpp"
 #include "delivery_box.hpp"
 
 namespace smart_home
@@ -20,12 +21,12 @@ public:
 class IPullDistributionChannelShutdownExc : public std::exception
 {
 public:
-    virtual ~IPullDistributionChannelShutdownExc ();
+    virtual ~IPullDistributionChannelShutdownExc () NOEXCEPTIONS;
 };
 
-IPullDistributionChannel::~IPullDistributionChannel () { }
+inline IPullDistributionChannel::~IPullDistributionChannel () { }
 
-IPullDistributionChannelShutdownExc::~IPullDistributionChannelShutdownExc () { }
+inline IPullDistributionChannelShutdownExc::~IPullDistributionChannelShutdownExc () NOEXCEPTIONS { }
 
 } // smart_home
 

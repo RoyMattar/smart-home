@@ -11,6 +11,7 @@ class EventTopic
 {
 public:
     EventTopic (Event::Type const& a_type, Event::Location const& a_location) NOEXCEPTIONS;
+    EventTopic (Event const& a_event) NOEXCEPTIONS;
     //EventTopic (EventTopic const& a_other) = default;
     //~EventTopic () = default;
     //EventTopic& operator= (EventTopic const& a_other) = default;

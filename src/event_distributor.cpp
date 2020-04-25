@@ -1,5 +1,6 @@
 #include <vector>
 #include <tr1/unordered_map>
+#include <stdexcept> // std::exception, std::out_of_range
 
 #include "event_distributor.hpp"
 #include "common_utils.hpp"
@@ -10,10 +11,17 @@
 namespace smart_home
 {
 
-EventDistributor::EventDistributor (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedPushChannels)
-    : m_channelMap()
+// struct ChannelNotFoundByTagExc : public std::exception
+// {
+//     const char* what () const NOEXCEPTIONS
+//     {
+//         return "No channel by this tag";
+//     }
+// };
+
+void EventDistributor::AddChannel (SharedPtr<IPushTaggedDistributionChannel> a_taggedChannel)
 {
-    mapTaggedChannels(a_taggedPushChannels);
+    m_channelMap[a_taggedChannel->GetTag()] = a_taggedChannel;
 }
 
 void EventDistributor::Distribute (SharedPtr<Event> const& a_pEvent,
@@ -36,19 +44,14 @@ SharedPtr<DeliveryBox> EventDistributor::makeDeliveryBox (SharedPtr<Event> const
     return SharedPtr<DeliveryBox>(new DeliveryBox(a_pEvent, a_pConsumer));
 }
 
-void EventDistributor::mapTaggedChannels (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedChannels)
-{
-    for (std::vector<SharedPtr<IPushTaggedDistributionChannel> >::size_type i = 0;
-         i < a_taggedChannels.size();
-         ++i)
-    {
-        SharedPtr<IPushTaggedDistributionChannel> currentChannel = a_taggedChannels[i];
-        m_channelMap[currentChannel->GetTag()] = currentChannel;
-    }
-}
-
 void EventDistributor::pushBoxToChannel (GroupTag a_channelTag, SharedPtr<DeliveryBox> const& a_deliveryBox)
-{
+{   
+    typename ChannelMap::const_iterator channelPairItr = m_channelMap.find(a_channelTag);
+    if (channelPairItr == m_channelMap.end())
+    {
+        throw std::out_of_range("No channel by this tag");
+    }
+
     m_channelMap[a_channelTag]->Push(a_deliveryBox);
 }
 

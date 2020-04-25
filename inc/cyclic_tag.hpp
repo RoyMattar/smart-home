@@ -10,7 +10,7 @@ public:
     typedef unsigned long TagType;
 
 public:
-    CyclicTag (TagType a_firstTag, TagType a_numOfTags);
+    CyclicTag (TagType a_numOfTags);
     //CyclicTag (CyclicTag const& a_other) = default;
     //~CyclicTag () = default;
     //CyclicTag& operator= (CyclicTag const& a_other) = default;

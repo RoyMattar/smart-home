@@ -24,9 +24,9 @@ public:
     virtual ~IPullEventBusShutdownExc ();
 };
 
-IPullEventBus::~IPullEventBus () { }
+inline IPullEventBus::~IPullEventBus () { }
 
-IPullEventBusShutdownExc::~IPullEventBusShutdownExc () { }
+inline IPullEventBusShutdownExc::~IPullEventBusShutdownExc () { }
 
 } // smart_home
 

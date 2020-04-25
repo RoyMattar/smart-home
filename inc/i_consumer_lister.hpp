@@ -16,7 +16,7 @@ public:
     virtual SharedPtr<DistributionListTagged> List (EventTopic const& a_eventTopic) const = 0;
 };
 
-IConsumerLister::~IConsumerLister () { }
+inline IConsumerLister::~IConsumerLister () { }
 
 } // smart_home
 

@@ -17,6 +17,11 @@ EventTopic::EventTopic (Event::Type const& a_type, Event::Location const& a_loca
     , m_location(a_location)
 { }
 
+EventTopic::EventTopic (Event const& a_event) NOEXCEPTIONS
+    : m_type(a_event.GetType())
+    , m_location(a_event.GetLocation())
+{ }
+
 void EventTopic::Print () const NOEXCEPTIONS
 {
     std::cout << "t-" << m_type << ":"

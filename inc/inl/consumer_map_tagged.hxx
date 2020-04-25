@@ -1,14 +1,14 @@
-#include <stdexcept> // std::exception
+#include <stdexcept> // std::exception, std::out_of_range
 #include <string> // std::tr1::hash<std::string>
 #include <utility> // std::pair
 
-struct EventTopicNotFoundExc : public std::exception
-{
-    const char* what () const NOEXCEPTIONS
-    {
-        return "Event topic not found in map";
-    }
-};
+// struct EventTopicNotFoundExc : public std::exception
+// {
+//     const char* what () const NOEXCEPTIONS
+//     {
+//         return "Event topic not found in map";
+//     }
+// };
 
 struct EventTopicHasher
 {
@@ -22,10 +22,10 @@ struct EventTopicHasher
 };
 
 template <typename SafeTaggedList>
-ConsumerMapTagged<SafeTaggedList>::ConsumerMapTagged (GroupTag a_firstTag, GroupTag a_numOfTags)
+ConsumerMapTagged<SafeTaggedList>::ConsumerMapTagged (CyclicTag const& a_cyclicTag)
     : m_tagMap()
     , m_listMap()
-    , m_cyclicTag(a_firstTag, a_numOfTags)
+    , m_cyclicTag(a_cyclicTag)
 { }
 
 template <typename SafeTaggedList>
@@ -52,7 +52,7 @@ bool ConsumerMapTagged<SafeTaggedList>::Deregister (EventTopic const& a_eventTop
 
     // get list for a_eventTopic
     typename ListMap::iterator listPairItr = m_listMap.find(a_eventTopic);
-    if (listPairItr == m_listMap.end()) { throw EventTopicNotFoundExc(); }
+    if (listPairItr == m_listMap.end()) { throw std::out_of_range("Event topic not found"); }
     SharedPtr<SafeTaggedList> pConsumerList = listPairItr->second;
 
     return pConsumerList->Remove(TaggedConsumer(groupTag, a_consumer));

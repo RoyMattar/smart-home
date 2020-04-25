@@ -14,10 +14,11 @@ public:
     virtual ~IConsumerRegistrar ();
 
     virtual bool Register (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_newConsumer) = 0;
+    //@exception throws std::out_of_range if a_eventTopic is not found
     virtual bool Deregister (EventTopic const& a_eventTopic, SharedPtr<IEventConsumer> const& a_consumer) = 0;
 };
 
-IConsumerRegistrar::~IConsumerRegistrar () { }
+inline IConsumerRegistrar::~IConsumerRegistrar () { }
 
 } // smart_home
 

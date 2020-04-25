@@ -30,19 +30,25 @@ public:
     //@brief joins the thread and removes its entry from the group
     //@exception may throw Thread::Join() exceptions
     //@exception may throw std::out_of_range if a_threadIndex is out of bounds
+    //@warning this effectively reduces the group by one, and all next threads are shifted to the left
     void Join (size_t a_threadIndex);
     //@brief tries to join the thread; if succesful, the thread entry is removed from the group
     //@retval true if succesfully joined, false otherwise
     //@exception may throw Thread::TryJoin() exceptions
     //@exception may throw std::out_of_range if a_threadIndex is out of bounds
+    //@warning if successful, this effectively reduces the group by one,
+    //         and all next threads are shifted to the left
     bool TryJoin (size_t a_threadIndex);
     //@brief tries to join the thread with a maximum timeout; if succesful, the thread entry is removed from the group
     //@retval true if successfully joined, false if timed out before joining
     //@exception may throw Thread::TimedJoin() exceptions
     //@exception may throw std::out_of_range if a_threadIndex is out of bounds
+    //@warning if successful, this effectively reduces the group by one,
+    //         and all next threads are shifted to the left
     bool TimedJoin (size_t a_threadIndex, useconds_t a_timeout);
     //@brief detaches the thread and removes its entry from the group
     //@exception may throw std::out_of_range if a_threadIndex is out of bounds
+    //@warning this effectively reduces the group by one, and all next threads are shifted to the left
     void Detach (size_t a_threadIndex);
     //@retval true if none of Join/TryJoin/TimedJoin/Detach had been called, false otherwise
     bool Joinable (size_t a_threadIndex) const NOEXCEPTIONS;
@@ -61,8 +67,8 @@ private:
     Mutex m_groupMutex;
 };
 
-#include "inl/thread_group_mt.hxx"
+} // advcpp
 
-} // smart_home
+#include "inl/thread_group_mt.hxx"
 
 #endif // THREAD_GROUP_MT_HPP

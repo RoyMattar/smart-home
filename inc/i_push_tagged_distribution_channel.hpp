@@ -1,15 +1,16 @@
 #ifndef I_PUSH_TAGGED_DISTRIBUTION_CHANNEL_HPP
 #define I_PUSH_TAGGED_DISTRIBUTION_CHANNEL_HPP
 
-#include <stdexcept> // std::exception
-
+#include "i_push_distribution_channel.hpp"
+#include "i_tagged.hpp"
+#include "common_utils.hpp"
 #include "delivery_box.hpp"
 #include "group_tag.hpp"
 
 namespace smart_home
 {
 
-class IPushTaggedDistributionChannel
+class IPushTaggedDistributionChannel : public IPushDistributionChannel, public ITagged
 {
 public:
     virtual ~IPushTaggedDistributionChannel ();
@@ -20,15 +21,7 @@ public:
     virtual GroupTag GetTag () const NOEXCEPTIONS = 0;
 };
 
-class IPushTaggedDistributionChannelShutdownExc : public std::exception
-{
-public:
-    virtual ~IPushTaggedDistributionChannelShutdownExc ();
-};
-
-IPushTaggedDistributionChannel::~IPushTaggedDistributionChannel () { }
-
-IPushTaggedDistributionChannelShutdownExc::~IPushTaggedDistributionChannelShutdownExc () { }
+inline IPushTaggedDistributionChannel::~IPushTaggedDistributionChannel () { }
 
 } // smart_home
 

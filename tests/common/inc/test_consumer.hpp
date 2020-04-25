@@ -9,6 +9,7 @@
 #include "event.hpp"
 #include "event_topic.hpp"
 #include "i_consumer_registrar.hpp"
+#include "mutex.hpp"
 
 namespace smart_home
 {
@@ -16,7 +17,7 @@ namespace smart_home
 class TestConsumer : public IEventSubscriber, public IEventConsumer, public std::tr1::enable_shared_from_this<TestConsumer>
 {
 public:
-    TestConsumer (EventTopic const& a_eventTopic);
+    TestConsumer (EventTopic const& a_eventTopic, advcpp::Mutex& a_printMutex);
     //TestConsumer (TestConsumer const& a_other);
     //~TestConsumer ();
     //TestConsumer& operator= (TestConsumer& a_other);
@@ -29,6 +30,7 @@ public:
 private:
     EventTopic m_eventTopic;
     size_t m_countDelivered;
+    advcpp::Mutex& m_printMutex;
 };
 
 inline EventTopic const& TestConsumer::GetTopic () const { return m_eventTopic; }

@@ -17,11 +17,12 @@ namespace smart_home
 class EventDistributor : public IEventDistributor
 {
 public:
-    EventDistributor (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedPushChannels);
+    //EventDistributor () = default;
     //EventDistributor (EventDistributor const& a_other) = default;
     //~EventDistributor () = default;
     //EventDistributor& operator= (EventDistributor const& a_other) = default;
 
+    virtual void AddChannel (SharedPtr<IPushTaggedDistributionChannel> a_taggedChannel);
     virtual void Distribute (SharedPtr<Event> const& a_pEvent,
                              SharedPtr<DistributionListTagged> const& a_distributionListTagged);
 
@@ -31,7 +32,6 @@ private:
 private:
     static SharedPtr<DeliveryBox> makeDeliveryBox (SharedPtr<Event> const& a_pEvent, SharedPtr<IEventConsumer> const& a_pConsumer);
 
-    void mapTaggedChannels (std::vector<SharedPtr<IPushTaggedDistributionChannel> > const& a_taggedChannels);
     void pushBoxToChannel (GroupTag a_channelTag, SharedPtr<DeliveryBox> const& a_deliveryBox);
 
 private:

@@ -24,9 +24,9 @@ public:
     virtual ~IPushEventBusShutdownExc ();
 };
 
-IPushEventBus::~IPushEventBus () { }
+inline IPushEventBus::~IPushEventBus () { }
 
-IPushEventBusShutdownExc::~IPushEventBusShutdownExc () { }
+inline IPushEventBusShutdownExc::~IPushEventBusShutdownExc () { }
 
 } // smart_home
 

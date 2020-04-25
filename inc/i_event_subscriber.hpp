@@ -15,7 +15,7 @@ public:
     virtual void Subscribe (SharedPtr<IConsumerRegistrar> const& a_consumerRegistrar) = 0;
 };
 
-IEventSubscriber::~IEventSubscriber () { }
+inline IEventSubscriber::~IEventSubscriber () { }
 
 } // smart_home
 
