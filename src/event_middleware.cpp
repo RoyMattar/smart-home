@@ -1,12 +1,15 @@
 #include <iostream> // std::cerr
+#include <stdexcept> // std::exception
 #include <cassert>
 
 #include "event_middleware.hpp"
 #include "common_utils.hpp"
-#include "event.hpp"
 #include "i_pull_event_bus.hpp"
 #include "i_consumer_lister.hpp"
 #include "i_event_distributor.hpp"
+#include "event.hpp"
+#include "event_topic.hpp"
+#include "distribution_list_tagged.hpp"
 
 namespace smart_home
 {
@@ -29,8 +32,8 @@ void EventMiddleware::Run ()
             break;
         }
         
-        SharedPtr<ConsumerListing> consumerListing = tryList(pEvent);
-        tryDistribute(pEvent, consumerListing);
+        SharedPtr<DistributionListTagged> distributionListTagged = tryList(EventTopic(*pEvent));
+        tryDistribute(pEvent, distributionListTagged);
     }
 }
 
@@ -47,12 +50,12 @@ bool EventMiddleware::tryPull (SharedPtr<Event>& a_pEventRef)
     return true;
 }
 
-SharedPtr<EventMiddleware::ConsumerListing> EventMiddleware::tryList (SharedPtr<Event> const& a_pEvent)
+SharedPtr<DistributionListTagged> EventMiddleware::tryList (EventTopic const& a_eventTopic)
 {
-    SharedPtr<ConsumerListing> consumerListing;
+    SharedPtr<DistributionListTagged> distributionListTagged;
     try
     {
-        consumerListing = m_consumerLister->List(a_pEvent);
+        distributionListTagged = m_consumerLister->List(a_eventTopic);
     }
     catch (std::exception const& a_e)
     {
@@ -63,14 +66,15 @@ SharedPtr<EventMiddleware::ConsumerListing> EventMiddleware::tryList (SharedPtr<
     {
         assert(!"Non documented exception thrown by IConsumerLister");
     }
-    return consumerListing;
+    return distributionListTagged;
 }
 
-void EventMiddleware::tryDistribute (SharedPtr<Event> const& a_pEvent, SharedPtr<ConsumerListing> const& a_consumerListing)
+void EventMiddleware::tryDistribute (SharedPtr<Event> const& a_pEvent,
+                                     SharedPtr<DistributionListTagged> const& a_distributionListTagged)
 {
     try
     {
-        m_eventDistributor->Distribute(a_pEvent, a_consumerListing);
+        m_eventDistributor->Distribute(a_pEvent, a_distributionListTagged);
     }
     catch (std::exception const& a_e)
     {

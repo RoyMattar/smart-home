@@ -1,15 +1,14 @@
 #ifndef EVENT_MIDDLEWARE_HPP
 #define EVENT_MIDDLEWARE_HPP
 
-#include <vector>
-
 #include "i_runnable.hpp"
 #include "common_utils.hpp"
-#include "event.hpp"
 #include "i_pull_event_bus.hpp"
 #include "i_consumer_lister.hpp"
 #include "i_event_distributor.hpp"
-#include "i_event_consumer.hpp"
+#include "event.hpp"
+#include "event_topic.hpp"
+#include "distribution_list_tagged.hpp"
 
 namespace smart_home
 {
@@ -25,12 +24,10 @@ public:
     virtual void Run ();
 
 private:
-    typedef std::vector<SharedPtr<IEventConsumer> > ConsumerListing;
-
-private:
     bool tryPull (SharedPtr<Event>& a_pEventRef);
-    SharedPtr<ConsumerListing> tryList (SharedPtr<Event> const& a_pEvent);
-    void tryDistribute (SharedPtr<Event> const& a_pEvent, SharedPtr<ConsumerListing> const& a_consumerListing);
+    SharedPtr<DistributionListTagged> tryList (EventTopic const& a_eventTopic);
+    void tryDistribute (SharedPtr<Event> const& a_pEvent,
+                        SharedPtr<DistributionListTagged> const& a_distributionListTagged);
 
 private:
     SharedPtr<IPullEventBus> m_pullBus;
