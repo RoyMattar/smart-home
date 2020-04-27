@@ -9,14 +9,13 @@ CFLAGS += -Werror
 CXXFLAGS = $(CFLAGS)
 CXXFLAGS += -std=c++03 
 
-CPPFLAGS = -I$(INC_DIR) -I$(TEST_INC_DIR)
+CPPFLAGS = -I$(INC_DIR)
 CPPFLAGS += -MMD
 LDFLAGS = -Wl,-rpath $(SO_PATH) -L$(SO_PATH)
 LDLIBS = -ldl -lpthread
 
 INC_DIR = ../../inc
 SRC_DIR = ../../src
-SO_PATH = ../common/so
 
 TARGET = complete_test
 
@@ -35,21 +34,22 @@ OBJECTS = $(SOURCES:%.cpp=%.o)
 DEPENDS = $(OBJECTS:%.o=%.d)
 -include $(DEPENDS)
 
-all: $(TARGET)
+SO_PATH = ../so
+SO_SENSOR = $(SO_PATH)/libTestSensor.so
+SO_CONTROLLER = $(SO_PATH)/libTestController.so
+SO_HYBRID = $(SO_PATH)/libTestHybrid.so
 
-$(TARGET): $(SO_LIBS) $(OBJECTS)
+all: $(SO_SENSOR) $(SO_CONTROLLER) $(SO_HYBRID) $(TARGET)
+
+$(TARGET): $(SO_SENSOR) $(SO_CONTROLLER) $(SO_HYBRID) $(OBJECTS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJECTS) $(LDLIBS)
 
-SO_LIBS = $(SO_PATH)/test_sensor/libTestSensor.so
-SO_LIBS += $(SO_PATH)/test_controller/libTestController.so
-SO_LIBS += $(SO_PATH)/test_hybrid/libTestHybrid.so
-
-$(SO_PATH)/test_sensor/libTestSensor.so:
-	$(MAKE) -C $(SO_PATH)/test_sensor all
-$(SO_PATH)/test_sensor/libTestController.so:
-	$(MAKE) -C $(SO_PATH)/test_controller all
-$(SO_PATH)/test_sensor/libTestHybrid.so:
-	$(MAKE) -C $(SO_PATH)/test_hybrid all
+$(SO_SENSOR):
+	$(MAKE) -C $(SO_PATH)/test_sensor
+$(SO_CONTROLLER):
+	$(MAKE) -C $(SO_PATH)/test_controller
+$(SO_HYBRID):
+	$(MAKE) -C $(SO_PATH)/test_hybrid
 
 check: $(TARGET) 
 	./$(TARGET) -v

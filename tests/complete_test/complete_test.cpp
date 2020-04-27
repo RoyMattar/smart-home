@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdexcept> // std::exception
 #include <unistd.h> // sleep() - simulate
 
 #include "i_agent.hpp"
@@ -69,17 +70,36 @@ UNIT(complete)
         getline(fs, config);
 
         std::string lib = "lib" + type + ".so";
-        SharedPtr<SOLibHandler> soHandler(new SOLibHandler(lib.c_str()));
+        SharedPtr<SOLibHandler> soHandler;
+        try
+        {
+            soHandler = SharedPtr<SOLibHandler>(new SOLibHandler(lib.c_str()));
+        }
+        catch (std::exception const& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
         libHandlers.push_back(soHandler);
         typedef SharedPtr<IAgent> (*AgentMaker)(AgentInfo::DeviceID const& a_id,
                                                 AgentInfo::DeviceLocation const& a_location,
                                                 AgentInfo::AgentLog const& a_log,
                                                 AgentInfo::AgentConfig const& a_config);
-        AgentMaker makeAgent = soHandler->GetSymbolPtr<AgentMaker>("MakeAgent");
+        AgentMaker makeAgent;
+        try
+        {
+            makeAgent = soHandler->GetSymbolPtr<AgentMaker>("MakeAgent");
+        }
+        catch (std::exception const& e)
+        {
+            std::cerr << e.what() << std::endl;
+        }
         SharedPtr<IAgent> agent(makeAgent(id, AgentInfo::DeviceLocation(floor, room), log, config));
         agent->Connect(eventBus, consumerMapTagged);
         agents.push_back(agent);
     }
+    fs.close();
+    eventDeliveryFactory.StopAll();
+    tMid->Join();
     sleep(5);
 END_UNIT
 

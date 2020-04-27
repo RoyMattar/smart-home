@@ -12,7 +12,7 @@
 namespace smart_home
 {
 
-class TestSensor : public IAgent, private advcpp::IRunnable, public std::tr1::enable_shared_from_this<TestSensor>
+class TestSensor : public IAgent, public advcpp::IRunnable, public std::tr1::enable_shared_from_this<TestSensor>
 // TODO: receive only a_config and parse it
 {
 public:
