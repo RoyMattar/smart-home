@@ -21,12 +21,12 @@ public:
 class IPullEventBusShutdownExc : public std::exception
 {
 public:
-    virtual ~IPullEventBusShutdownExc ();
+    virtual ~IPullEventBusShutdownExc () NOEXCEPTIONS;
 };
 
 inline IPullEventBus::~IPullEventBus () { }
 
-inline IPullEventBusShutdownExc::~IPullEventBusShutdownExc () { }
+inline IPullEventBusShutdownExc::~IPullEventBusShutdownExc () NOEXCEPTIONS { }
 
 } // smart_home
 

@@ -19,7 +19,7 @@ IF_DIR = ..
 
 TARGET = libCat.so
 
-SOURCES = cat.cpp
+SOURCES = cat.cpp $(IF_DIR)/i_cat.cpp
 
 OBJECTS = $(SOURCES:%.cpp=%.o)
 

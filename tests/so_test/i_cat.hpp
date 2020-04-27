@@ -9,18 +9,14 @@ namespace smart_home
 class ICat
 {
 public:
+    //ICat () = default;
+    //ICat (ICat const& a_other) = default;
     virtual ~ICat () NOEXCEPTIONS;
+    //ICat& operator= (ICat const& a_other) = default;
 
-    virtual void Meow () const NOEXCEPTIONS;
+    virtual void Meow () const NOEXCEPTIONS = 0;
 };
 
-inline ICat::~ICat () NOEXCEPTIONS { }
-
 } // smart_home
-
-extern "C"
-{
-    SharedPtr<smart_home::ICat> MakeICat ();
-}
 
 #endif // I_CAT_HPP

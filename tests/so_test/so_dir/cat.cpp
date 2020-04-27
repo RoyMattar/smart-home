@@ -16,7 +16,7 @@ void Cat::Meow () const NOEXCEPTIONS
 
 extern "C"
 {
-    SharedPtr<smart_home::ICat> MakeICat ()
+    SharedPtr<smart_home::ICat> MakeCat ()
     {
         return SharedPtr<smart_home::ICat>(new smart_home::Cat());
     }
