@@ -1,31 +1,25 @@
 #include <vector>
 #include <tr1/unordered_map>
-#include <stdexcept> // std::exception, std::out_of_range
+#include <stdexcept> // std::out_of_range
 
 #include "event_distributor.hpp"
 #include "common_utils.hpp"
-#include "i_push_tagged_distribution_channel.hpp"
+#include "i_push_distribution_channel.hpp"
+#include "i_tagged.hpp"
 #include "event.hpp"
 #include "distribution_list_tagged.hpp"
 
 namespace smart_home
 {
 
-// struct ChannelNotFoundByTagExc : public std::exception
-// {
-//     const char* what () const NOEXCEPTIONS
-//     {
-//         return "No channel by this tag";
-//     }
-// };
-
-void EventDistributor::AddChannel (SharedPtr<IPushTaggedDistributionChannel> a_taggedChannel)
+void EventDistributor::AddChannel (SharedPtr<IPushDistributionChannel> a_pushChannel,
+                                   SharedPtr<ITagged> a_tagged)
 {
-    m_channelMap[a_taggedChannel->GetTag()] = a_taggedChannel;
+    m_channelMap[a_tagged->GetTag()] = a_pushChannel;
 }
 
 void EventDistributor::Distribute (SharedPtr<Event> const& a_pEvent,
-                             SharedPtr<DistributionListTagged> const& a_distributionListTagged)
+                                   SharedPtr<DistributionListTagged> const& a_distributionListTagged)
 {
     for (DistributionListTagged::size_type i = 0;
          i < a_distributionListTagged->size();

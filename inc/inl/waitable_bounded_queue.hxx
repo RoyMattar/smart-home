@@ -48,30 +48,30 @@ struct FreeDataSpaceNotifier
 } // anonymous
 
 template <typename T, typename Q>
-struct WaitableBoundedQueue<T, Q>::IsNotFull
+struct WaitableBoundedQueue<T, Q>::IsFull
 {
-    IsNotFull (const WaitableBoundedQueue<T, Q>& a_wbq)
+    IsFull (const WaitableBoundedQueue<T, Q>& a_wbq)
         : m_wbq(a_wbq)
     { }
 
     bool operator() () const NOEXCEPTIONS
     {
-        return m_wbq.m_boundedQueue.NumOfElems() < m_wbq.m_boundedQueue.Capacity();
+        return m_wbq.m_boundedQueue.NumOfElems() == m_wbq.m_boundedQueue.Capacity();
     }
 
     const WaitableBoundedQueue<T, Q>& m_wbq;
 };
 
 template <typename T, typename Q>
-struct WaitableBoundedQueue<T, Q>::IsNotEmpty
+struct WaitableBoundedQueue<T, Q>::IsEmpty
 {
-    IsNotEmpty (const WaitableBoundedQueue<T, Q>& a_wbq)
+    IsEmpty (const WaitableBoundedQueue<T, Q>& a_wbq)
         : m_wbq(a_wbq)
     { }
 
     bool operator() () const NOEXCEPTIONS
     {
-        return m_wbq.m_boundedQueue.NumOfElems() > 0;
+        return m_wbq.m_boundedQueue.NumOfElems() == 0;
     }
 
     const WaitableBoundedQueue<T, Q>& m_wbq;
@@ -105,10 +105,13 @@ WaitableBoundedQueue<T, Q>::WaitableBoundedQueue (size_t a_capacity)
 template <typename T, typename Q>
 WaitableBoundedQueue<T, Q>::~WaitableBoundedQueue () NOEXCEPTIONS
 {
-    turnShutdownOn();
+    if (!isShutdown())
+    {
+        turnShutdownOn();
 
-    m_newFreeDataSpace.NotifyAll();
-    m_newOccDataSpace.NotifyAll();
+        m_newFreeDataSpace.NotifyAll();
+        m_newOccDataSpace.NotifyAll();
+    }
 }
 
 template <typename T, typename Q>
@@ -117,10 +120,10 @@ void WaitableBoundedQueue<T, Q>::Enqueue (const T& a_elem)
     LockGuard lg(m_queueMutex);
     
     NotifyGuard<
-        AndPredicate<IsNotFull, IsNotShuttingDown>, OccDataSpaceNotifier
+        AndPredicate<IsFull, IsNotShuttingDown>, OccDataSpaceNotifier
         > ng(
         m_newFreeDataSpace, m_queueMutex
-        , And(IsNotFull(*this), IsNotShuttingDown(*this))
+        , And(IsFull(*this), IsNotShuttingDown(*this))
         , OccDataSpaceNotifier(m_newOccDataSpace));
 
     if (isShutdown())
@@ -139,10 +142,10 @@ void WaitableBoundedQueue<T, Q>::Dequeue (T& a_elemRef)
     LockGuard lg(m_queueMutex);
 
     NotifyGuard<
-        AndPredicate<IsNotEmpty, IsNotShuttingDown>, FreeDataSpaceNotifier
+        AndPredicate<IsEmpty, IsNotShuttingDown>, FreeDataSpaceNotifier
         > ng(
         m_newOccDataSpace, m_queueMutex
-        , And(IsNotEmpty(*this), IsNotShuttingDown(*this))
+        , And(IsEmpty(*this), IsNotShuttingDown(*this))
         , FreeDataSpaceNotifier(m_newFreeDataSpace));
 
     if (isShutdown())
@@ -158,13 +161,34 @@ void WaitableBoundedQueue<T, Q>::Dequeue (T& a_elemRef)
 template <typename T, typename Q>
 size_t WaitableBoundedQueue<T, Q>::NumOfElems () const NOEXCEPTIONS
 {
+    LockGuard lg(const_cast<WaitableBoundedQueue<T, Q>*>(this)->m_queueMutex);
     return m_boundedQueue.NumOfElems();
 }
 
 template <typename T, typename Q>
 size_t WaitableBoundedQueue<T, Q>::Capacity () const NOEXCEPTIONS
 {
+    LockGuard lg(const_cast<WaitableBoundedQueue<T, Q>*>(this)->m_queueMutex);
     return m_boundedQueue.Capacity();
+}
+
+template <typename T, typename Q>
+std::vector<T> WaitableBoundedQueue<T, Q>::Shutdown ()
+{
+    turnShutdownOn();
+
+    m_newFreeDataSpace.NotifyAll();
+    m_newOccDataSpace.NotifyAll();
+
+    LockGuard lg(m_queueMutex); //questionable - might block enqueuers/dequeuers from exiting (but race condition w/o it)
+
+    std::vector<T> leftovers;
+    for (size_t i = 0; i < m_boundedQueue.NumOfElems(); ++i)
+    {
+        leftovers.push_back(m_boundedQueue.PopFront());
+    }
+
+    return leftovers;
 }
 
 template <typename T, typename Q>

@@ -13,6 +13,7 @@ class IAgent
 public:
     virtual void Connect (SharedPtr<IPushEventBus> const& a_pushBus,
                           SharedPtr<IConsumerRegistrar> const& a_registrar) = 0;
+    virtual void Disconnect () = 0;
 };
 
 } // smart_home

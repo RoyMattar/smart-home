@@ -76,4 +76,16 @@ void ThreadGroupMT<Runnable>::CancelAsync (size_t a_threadIndex)
     m_group.at(a_threadIndex).second->CancelAsync();
 }
 
+template <typename Runnable>
+void ThreadGroupMT<Runnable>::JoinAll ()
+{
+    LockGuard lg(m_groupMutex);
+    size_t numOfIterations = m_group.size();
+    for (size_t i = 0; i < numOfIterations; ++i)
+    {
+        m_group.at(0).second->Join();
+        m_group.erase(m_group.begin());
+    }
+}
+
 } // advcpp

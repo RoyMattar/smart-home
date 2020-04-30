@@ -16,25 +16,28 @@ TestSensor::TestSensor (AgentInfo::DeviceID const& a_id, AgentInfo::DeviceLocati
     : m_info(a_id, "TestSensor", a_location, a_log, a_config)
     , m_thread()
     , m_pushBus()
+    , m_connected(false)
 { }
-
-TestSensor::~TestSensor () NOEXCEPTIONS
-{
-    m_thread->Join();
-}
 
 void TestSensor::Connect (SharedPtr<IPushEventBus> const& a_pushBus,
                           SharedPtr<IConsumerRegistrar> const& a_registrar)
 {
     m_pushBus = a_pushBus;
+    m_connected = true;
     m_thread = SharedPtr<advcpp::Thread>(new advcpp::Thread(shared_from_this()));
+}
+
+void TestSensor::Disconnect ()
+{
+    m_connected = false;
+    m_thread->Join();
 }
 
 void TestSensor::Run ()
 {
     try
     {
-        while (true)
+        while (m_connected)
         {
             Event e("test-type", "now", "test-payload", m_info.GetLocation());
             SharedPtr<Event> pe(new Event(e));

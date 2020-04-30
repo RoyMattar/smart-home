@@ -19,11 +19,12 @@ public:
     TestSensor (AgentInfo::DeviceID const& a_id, AgentInfo::DeviceLocation const& a_location,
                 AgentInfo::AgentLog const& a_log, AgentInfo::AgentConfig const& a_config);
     //TestSensor (TestSensor const& a_other) = default;
-    ~TestSensor () NOEXCEPTIONS;
+    //~TestSensor () = default;
     //TestSensor& operator= (TestSensor const& a_other) = default;
 
     virtual void Connect (SharedPtr<IPushEventBus> const& a_pushBus,
                           SharedPtr<IConsumerRegistrar> const& a_registrar);
+    virtual void Disconnect ();
 
 private:
     virtual void Run ();
@@ -32,6 +33,7 @@ private:
     AgentInfo m_info;
     SharedPtr<advcpp::Thread> m_thread;
     SharedPtr<IPushEventBus> m_pushBus;
+    bool m_connected;
 };
 
 } // smart_home

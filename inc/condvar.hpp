@@ -22,7 +22,7 @@ public:
 
     template <typename Predicate>
     //require:  Predicate   has bool operator()() - nullary boolean function operator
-    //@brief waits until a_predicate turns true
+    //@brief waits as long as a_predicate is true
     //@param[in] a_mutex:       reference to the Mutex to be used by pthread_cond_t
     //           a_predicate:   the predicate functor - manages the condition for waiting
     void Wait (Mutex& a_mutex, Predicate a_predicate);
@@ -41,29 +41,29 @@ private:
 
 struct CondVarNoResourcesExc : public std::exception
 {
-    const char* what() const NOEXCEPTIONS;
+    const char* what () const NOEXCEPTIONS;
 };
 
 struct CondVarNoMemoryExc : public std::exception
 {
-    const char* what() const NOEXCEPTIONS;
+    const char* what () const NOEXCEPTIONS;
 };
 
 struct CondVarWrongMutexExc : public std::exception
 {
-    const char* what() const NOEXCEPTIONS;
+    const char* what () const NOEXCEPTIONS;
 };
 
 struct CondVarNoLockExc : public std::exception
 {
-    const char* what() const NOEXCEPTIONS;
+    const char* what () const NOEXCEPTIONS;
 };
 
 
 template <typename Predicate>
 void CondVar::Wait (Mutex& a_mutex, Predicate a_predicate)
 {
-    while (!a_predicate())
+    while (a_predicate())
     {
         switch (pthread_cond_wait(&m_condVar, &(a_mutex.GetNativeMutex())))
         {

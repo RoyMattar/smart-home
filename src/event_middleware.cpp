@@ -11,6 +11,8 @@
 #include "event_topic.hpp"
 #include "distribution_list_tagged.hpp"
 
+#include "event_bus.hpp"
+
 namespace smart_home
 {
 

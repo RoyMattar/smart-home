@@ -1,4 +1,4 @@
-#	makefile	:	SmartHome - so: main
+#	makefile	:	SmartHome - simulation
 
 CC	= g++
 CXX = $(CC)
@@ -17,9 +17,10 @@ LDLIBS = -ldl -lpthread
 INC_DIR = ../../inc
 SRC_DIR = ../../src
 
-EXE = complete_test
+EXE = simulation
 
 SOURCES = $(EXE).cpp
+SOURCES += $(SRC_DIR)/server.cpp
 SOURCES += $(SRC_DIR)/event.cpp $(SRC_DIR)/event_topic.cpp
 SOURCES += $(SRC_DIR)/event_bus.cpp $(SRC_DIR)/event_middleware.cpp
 SOURCES += $(SRC_DIR)/consumer_list_tagged_mt.cpp $(SRC_DIR)/cyclic_tag.cpp

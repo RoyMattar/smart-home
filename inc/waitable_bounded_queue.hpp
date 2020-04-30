@@ -1,7 +1,9 @@
 #ifndef WAITABLE_BOUNDED_QUEUE_HPP
 #define WAITABLE_BOUNDED_QUEUE_HPP
 
+#include <vector>
 #include <cstddef> // size_t
+
 #include "common_utils.hpp"
 #include "cyclic_fifo.hpp"
 #include "mutex.hpp"
@@ -21,24 +23,29 @@ public:
     //@param[in] a_capacity: the queue's maximum capacity
     //@exception may throw std::bad_alloc while initializing Q with T's
     WaitableBoundedQueue (size_t a_capacity);
+    //@brief shuts the queue down if it had not been shut down
     ~WaitableBoundedQueue () NOEXCEPTIONS;
 
     //@brief enqueues an element into the queue
     //@param[in] a_elem: the element to be enqueued
     //@exception may throw advcpp::WaitableBoundedQueueShutdownExc if the queue is being shut down by another thread
-    virtual void Enqueue (const T& a_elem);
+    void Enqueue (const T& a_elem);
     //@brief dequeues an element from the queue
     //@param[out] a_elemRef: reference to T in which the dequeued element shall be stored
     //@exception may throw advcpp::WaitableBoundedQueueShutdownExc if the queue is being shut down by another thread
-    virtual void Dequeue (T& a_elemRef);
+    void Dequeue (T& a_elemRef);
     //@brief returns number of elements in the queue.
-    virtual size_t NumOfElems () const NOEXCEPTIONS;
+    size_t NumOfElems () const NOEXCEPTIONS;
     //@brief returns the maximum capacity of the queue.
-    virtual size_t Capacity () const NOEXCEPTIONS;
+    size_t Capacity () const NOEXCEPTIONS;
+    //@brief shuts the queue down, stopping all waiting enqueuers or dequeuers
+    //@retval returns all T's which are left in the queue
+    //@exception throws std::bad_alloc
+    std::vector<T> Shutdown ();
 
 private:
-    struct IsNotFull;
-    struct IsNotEmpty;
+    struct IsFull;
+    struct IsEmpty;
     struct IsNotShuttingDown;
 
 private:

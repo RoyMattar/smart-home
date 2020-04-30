@@ -21,6 +21,7 @@ public:
     virtual void Push (SharedPtr<Event> const& a_pEvent);
     virtual void Pull (SharedPtr<Event>& a_pEvent);
     size_t NumOfElems () const NOEXCEPTIONS;
+    std::vector<SharedPtr<Event> > Shutdown ();
 
 private:
     typedef advcpp::WaitableBoundedQueue<SharedPtr<Event> > BusType;

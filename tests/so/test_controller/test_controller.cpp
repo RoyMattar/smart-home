@@ -21,12 +21,19 @@ TestController::TestController (AgentInfo::DeviceID const& a_id, AgentInfo::Devi
     , m_topic(a_topic)
     , m_countConsumed(0)
     , m_printMutex()
+    , m_registrar()
 { }
 
 void TestController::Connect (SharedPtr<IPushEventBus> const& a_pushBus,
                               SharedPtr<IConsumerRegistrar> const& a_registrar)
 {
-    a_registrar->Register(m_topic, shared_from_this());
+    m_registrar = a_registrar;
+    m_registrar->Register(m_topic, shared_from_this());
+}
+
+void TestController::Disconnect ()
+{
+    m_registrar->Deregister(m_topic, shared_from_this());
 }
 
 void TestController::Consume (SharedPtr<Event> const& a_pEvent)

@@ -6,7 +6,8 @@
 
 #include "i_event_distributor.hpp"
 #include "common_utils.hpp"
-#include "i_push_tagged_distribution_channel.hpp"
+#include "i_push_distribution_channel.hpp"
+#include "i_tagged.hpp"
 #include "event.hpp"
 #include "distribution_list_tagged.hpp"
 #include "group_tag.hpp"
@@ -22,12 +23,14 @@ public:
     //~EventDistributor () = default;
     //EventDistributor& operator= (EventDistributor const& a_other) = default;
 
-    virtual void AddChannel (SharedPtr<IPushTaggedDistributionChannel> a_taggedChannel);
+    virtual void AddChannel (SharedPtr<IPushDistributionChannel> a_pushChannel,
+                             SharedPtr<ITagged> a_tagged);
+    //@exception throws std::out_of_range if no channel matches given tag
     virtual void Distribute (SharedPtr<Event> const& a_pEvent,
                              SharedPtr<DistributionListTagged> const& a_distributionListTagged);
 
 private:
-    typedef std::tr1::unordered_map<GroupTag, SharedPtr<IPushTaggedDistributionChannel> > ChannelMap;
+    typedef std::tr1::unordered_map<GroupTag, SharedPtr<IPushDistributionChannel> > ChannelMap;
 
 private:
     static SharedPtr<DeliveryBox> makeDeliveryBox (SharedPtr<Event> const& a_pEvent, SharedPtr<IEventConsumer> const& a_pConsumer);

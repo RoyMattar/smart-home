@@ -29,6 +29,7 @@ public:
 
     virtual void Connect (SharedPtr<IPushEventBus> const& a_pushBus,
                           SharedPtr<IConsumerRegistrar> const& a_registrar);
+    virtual void Disconnect ();
 
 private:
     virtual void Consume (SharedPtr<Event> const& a_pEvent);
@@ -38,6 +39,7 @@ private:
     EventTopic m_topic;
     size_t m_countConsumed;
     advcpp::Mutex m_printMutex;
+    SharedPtr<IConsumerRegistrar> m_registrar;
 };
 
 } // smart_home

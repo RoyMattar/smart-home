@@ -57,6 +57,9 @@ public:
     //@exception may throw Thread::CancelAsync() exceptions
     //@exception may throw std::out_of_range if a_threadIndex is out of bounds
     void CancelAsync (size_t a_threadIndex);
+    //@brief joins all threads and removes all entries from the group
+    //@exception may throw Thread::Join() exceptions
+    void JoinAll ();
 
 private:
     typedef std::pair<SharedPtr<Runnable>, SharedPtr<Thread> > ThreadPair;

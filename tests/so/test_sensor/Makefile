@@ -20,7 +20,9 @@ SRC_DIR = ../../../src
 TARGET_PATH = ..
 TARGET = $(TARGET_PATH)/libTestSensor.so
 
-SOURCES = test_sensor.cpp $(SRC_DIR)/agent_info.cpp $(SRC_DIR)/thread.cpp $(SRC_DIR)/event.cpp
+SOURCES = test_sensor.cpp
+SOURCES += $(SRC_DIR)/event.cpp $(SRC_DIR)/agent_info.cpp
+SOURCES += $(SRC_DIR)/thread.cpp $(SRC_DIR)/atomic_flag.cpp
 
 OBJECTS = $(SOURCES:%.cpp=%.o)
 

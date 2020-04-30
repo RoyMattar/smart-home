@@ -36,4 +36,9 @@ void EventBus::Pull (SharedPtr<Event>& a_pEvent)
     }
 }
 
+std::vector<SharedPtr<Event> > EventBus::Shutdown ()
+{
+    return m_bus.Shutdown();
+}
+
 } // smart_home
