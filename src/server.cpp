@@ -11,7 +11,7 @@
 
 #include "server.hpp"
 #include "common_utils.hpp"
-#include "cyclic_tag.hpp"
+#include "group_tag.hpp"
 #include "event.hpp"
 #include "event_bus.hpp"
 #include "consumer_map_tagged.hpp"
@@ -54,7 +54,7 @@ Server::Server (std::string const& a_configFile, unsigned char a_parallelFactor,
                                       SharedPtr<advcpp::Thread>()))
     , m_agents()
 {
-    for (CyclicTag::TagType tag = 0; tag < m_numOfTags; ++tag)
+    for (GroupTag tag = 0; tag < m_numOfTags; ++tag)
     {
         SharedPtr<TaggedDistributionChannel> chan(new TaggedDistributionChannel(a_distributionBandwidth, tag));
         m_taggedChannels.push_back(chan);
@@ -119,7 +119,7 @@ int Server::hardwareCores () NOEXCEPTIONS
     return get_nprocs();
 }
 
-CyclicTag::TagType Server::numOfTags (unsigned char a_tagFactor) NOEXCEPTIONS
+GroupTag Server::numOfTags (unsigned char a_tagFactor) NOEXCEPTIONS
 {
     return hardwareCores() * a_tagFactor;
 }

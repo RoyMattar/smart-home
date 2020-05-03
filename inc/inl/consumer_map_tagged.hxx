@@ -22,7 +22,7 @@ struct EventTopicHasher
 };
 
 template <typename SafeTaggedList>
-ConsumerMapTagged<SafeTaggedList>::ConsumerMapTagged (CyclicTag::TagType const& a_numOfTags)
+ConsumerMapTagged<SafeTaggedList>::ConsumerMapTagged (GroupTag const& a_numOfTags)
     : m_tagMap()
     , m_listMap()
     , m_cyclicTag(a_numOfTags)

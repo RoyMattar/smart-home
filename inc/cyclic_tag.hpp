@@ -1,16 +1,15 @@
 #ifndef CYCLIC_TAG_HPP
 #define CYCLIC_TAG_HPP
 
+#include "group_tag.hpp"
+
 namespace smart_home
 {
 
 class CyclicTag
 {
 public:
-    typedef unsigned long TagType;
-
-public:
-    explicit CyclicTag (TagType a_numOfTags);
+    explicit CyclicTag (GroupTag a_numOfTags);
     //CyclicTag (CyclicTag const& a_other) = default;
     //~CyclicTag () = default;
     //CyclicTag& operator= (CyclicTag const& a_other) = default;
@@ -18,12 +17,12 @@ public:
     CyclicTag& operator++ ();
     CyclicTag operator++ (int);
 
-    TagType const& GetCurrent () const;
-    TagType const& GetMax () const;
+    GroupTag const& GetCurrent () const;
+    GroupTag const& GetMax () const;
 
 private:
-    TagType m_currentTag;
-    TagType m_maxTag;
+    GroupTag m_currentTag;
+    GroupTag m_maxTag;
 };
 
 inline CyclicTag& CyclicTag::operator++ ()
@@ -39,8 +38,8 @@ inline CyclicTag CyclicTag::operator++ (int)
     return temp;
 }
 
-inline CyclicTag::TagType const& CyclicTag::GetCurrent () const { return m_currentTag; }
-inline CyclicTag::TagType const& CyclicTag::GetMax () const { return m_maxTag; }
+inline GroupTag const& CyclicTag::GetCurrent () const { return m_currentTag; }
+inline GroupTag const& CyclicTag::GetMax () const { return m_maxTag; }
 
 } // smart_home
 

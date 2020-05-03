@@ -3,7 +3,7 @@
 #include "test_registration_bundle.hpp"
 #include "common_utils.hpp"
 #include "consumer_map_tagged.hpp"
-#include "cyclic_tag.hpp"
+#include "group_tag.hpp"
 #include "event.hpp"
 #include "event_topic.hpp"
 #include "test_consumer.hpp"
@@ -12,7 +12,7 @@
 namespace smart_home
 {
 
-TestRegistrationBundle::TestRegistrationBundle (CyclicTag::TagType a_numOfTags)
+TestRegistrationBundle::TestRegistrationBundle (GroupTag a_numOfTags)
     : map(new ConsumerMapTagged<>(CyclicTag(a_numOfTags)))
     , light_F1_R3("light", Event::Location("1", "3"))
     , light_F1_R4("light", Event::Location("1", "4"))
