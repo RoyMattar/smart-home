@@ -13,7 +13,7 @@ class LockGuard : private Uncopyable
 public:
     //@brief constructor from Mutex reference - locks the Mutex
     //@param[in] a_mutex: reference to the Mutex to be locked
-    LockGuard (Mutex& a_mutex) NOEXCEPTIONS;
+    explicit LockGuard (Mutex& a_mutex) NOEXCEPTIONS;
     //@brief destructor - unlocks the mutex
     ~LockGuard () NOEXCEPTIONS;
 

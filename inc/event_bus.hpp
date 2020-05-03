@@ -15,7 +15,7 @@ namespace smart_home
 class EventBus : public IPushEventBus, public IPullEventBus, private advcpp::Uncopyable
 {
 public:
-    EventBus (size_t a_capacity);
+    explicit EventBus (size_t a_capacity);
     //~EventBus () = default;
 
     virtual void Push (SharedPtr<Event> const& a_pEvent);

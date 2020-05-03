@@ -27,7 +27,7 @@ template <typename SafeTaggedList = ConsumerListTaggedMT>
 class ConsumerMapTagged : public IConsumerRegistrar, public IConsumerLister, private advcpp::Uncopyable
 {
 public:
-    ConsumerMapTagged (CyclicTag::TagType const& a_numOfTags);
+    explicit ConsumerMapTagged (CyclicTag::TagType const& a_numOfTags);
     //~ConsumerMapTagged () = default;
 
     //@retval: true if successfully registered, false if consumer had already been registered to a_eventTopic
