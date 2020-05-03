@@ -4,18 +4,18 @@
 
 #include "event_distributor.hpp"
 #include "common_utils.hpp"
+#include "i_tag_getter.hpp"
 #include "i_push_distribution_channel.hpp"
-#include "i_tagged.hpp"
 #include "event.hpp"
 #include "distribution_list_tagged.hpp"
 
 namespace smart_home
 {
 
-void EventDistributor::AddChannel (SharedPtr<IPushDistributionChannel> a_pushChannel,
-                                   SharedPtr<ITagged> a_tagged)
+void EventDistributor::AddTaggedChannel (SharedPtr<ITagGetter> const& a_tagGetter, 
+                                         SharedPtr<IPushDistributionChannel> const& a_pushChannel)
 {
-    m_channelMap[a_tagged->GetTag()] = a_pushChannel;
+    m_channelMap[a_tagGetter->GetTag()] = a_pushChannel;
 }
 
 void EventDistributor::Distribute (SharedPtr<Event> const& a_pEvent,

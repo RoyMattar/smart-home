@@ -1,5 +1,5 @@
-#ifndef I_TAGGED_HPP
-#define I_TAGGED_HPP
+#ifndef I_TAG_GETTER_HPP
+#define I_TAG_GETTER_HPP
 
 #include "common_utils.hpp"
 #include "group_tag.hpp"
@@ -7,16 +7,16 @@
 namespace smart_home
 {
 
-class ITagged
+class ITagGetter
 {
 public:
-    virtual ~ITagged ();
+    virtual ~ITagGetter ();
 
     virtual GroupTag GetTag () const NOEXCEPTIONS = 0;
 };
 
-inline ITagged::~ITagged () { }
+inline ITagGetter::~ITagGetter () { }
 
 } // smart_home
 
-#endif // I_TAGGED_HPP
+#endif // I_TAG_GETTER_HPP

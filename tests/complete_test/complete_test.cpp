@@ -46,7 +46,7 @@ UNIT(complete)
     {
         SharedPtr<TaggedDistributionChannel> chan(new TaggedDistributionChannel(distributionBandwidth, tag));
         taggedDistributionChannels.push_back(chan);
-        eventDistributor->AddChannel(chan);
+        eventDistributor->AddTaggedChannel(chan);
         eventDeliveryFactory.AddCourier(chan);
     }
 

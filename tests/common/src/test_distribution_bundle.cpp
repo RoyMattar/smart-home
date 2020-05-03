@@ -40,7 +40,7 @@ SharedPtr<EventDistributor> MakeDistributor (std::vector<SharedPtr<TaggedDistrib
          i < a_channels.size();
          ++i)
     {
-        distributor->AddChannel(a_channels[i]);
+        distributor->AddTaggedChannel(a_channels[i]);
     }
     return distributor;
 }

@@ -58,7 +58,7 @@ Server::Server (std::string const& a_configFile, unsigned char a_parallelFactor,
     {
         SharedPtr<TaggedDistributionChannel> chan(new TaggedDistributionChannel(a_distributionBandwidth, tag));
         m_taggedChannels.push_back(chan);
-        m_distributor->AddChannel(m_taggedChannels[tag], m_taggedChannels[tag]);
+        m_distributor->AddTaggedChannel(m_taggedChannels[tag], m_taggedChannels[tag]);
     }
 }
 

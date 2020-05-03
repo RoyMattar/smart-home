@@ -21,7 +21,7 @@ public:
     //~EventDeliveryFactory () = default;
 
     //@brief adds a courier thread, pulling from a_distributionChannel for delivery
-    //       a_pushChannel for stopping the courier thread
+    //       provide a_pushChannel for the triggering of the stop of the courier thread
     void AddCourier (SharedPtr<IPullDistributionChannel> const& a_pullChannel,
                      SharedPtr<IPushDistributionChannel> const& a_pushChannel);
     //@retval returns the number of courier threads currently running deliveries

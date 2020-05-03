@@ -22,24 +22,24 @@ public:
 
 private:
     GroupTag m_currentTag;
-    GroupTag m_maxTag;
+    GroupTag m_numOfTags;
 };
 
 inline CyclicTag& CyclicTag::operator++ ()
 {
-    m_currentTag = (m_currentTag + 1) % m_maxTag;
+    m_currentTag = (m_currentTag + 1) % m_numOfTags;
     return *this;
 }
 
 inline CyclicTag CyclicTag::operator++ (int)
 {
     CyclicTag temp = *this;
-    m_currentTag = (m_currentTag + 1) % m_maxTag;
+    m_currentTag = (m_currentTag + 1) % m_numOfTags;
     return temp;
 }
 
 inline GroupTag const& CyclicTag::GetCurrent () const { return m_currentTag; }
-inline GroupTag const& CyclicTag::GetMax () const { return m_maxTag; }
+inline GroupTag const& CyclicTag::GetMax () const { return m_numOfTags; }
 
 } // smart_home
 
