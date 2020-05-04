@@ -8,7 +8,7 @@ CFLAGS += -Wall #-Wno-newline-eof
 #CFLAGS += -Werror
 CXXFLAGS = $(CFLAGS) -std=c++03 
 
-CPPFLAGS = -I$(INC_DIR) -I$(TEST_INC_DIR)
+CPPFLAGS = -I$(INC_DIR) -I$(TEST_INC_DIR) -I$(ARCHIVED_DIR)
 LDFLAGS = 
 LDLIBS =
 
@@ -16,6 +16,7 @@ INC_DIR = ../../inc
 SRC_DIR = ../../src
 TEST_INC_DIR = ../common/inc
 TEST_SRC_DIR = ../common/src
+ARCHIVED_DIR = ../archived
 
 TARGET = registration_test
 #SOURCES = $(TARGET).cpp $(SRC_DIR)/event.cpp $(TEST_SRC_DIR)/test_consumer.cpp
@@ -30,7 +31,7 @@ $(TARGET): $(OBJS)
 
 $(TARGET).o: $(INC_DIR)/mu_test.h $(INC_DIR)/common_utils.hpp $(INC_DIR)/event.hpp $(INC_DIR)/i_consumer_registrar.hpp $(TEST_INC_DIR)/test_consumer.hpp
 $(SRC_DIR)/event.o: $(INC_DIR)/event.hpp $(INC_DIR)/common_utils.hpp
-$(TEST_SRC_DIR)/test_consumer.o: $(TEST_INC_DIR)/test_consumer.hpp $(INC_DIR)/i_event_consumer.hpp $(INC_DIR)/i_event_subscriber.hpp
+$(TEST_SRC_DIR)/test_consumer.o: $(TEST_INC_DIR)/test_consumer.hpp $(INC_DIR)/i_event_consumer.hpp $(ARCHIVED_DIR)/i_event_subscriber.hpp
 
 valgrind: $(TARGET)
 	valgrind ./$(TARGET)

@@ -32,7 +32,7 @@ DEPENDS = $(OBJECTS:%.o=%.d)
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJECTS) 
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJECTS) $(LDLIBS)
 
 clean:
 	rm -f $(TARGET) $(OBJECTS) $(DEPENDS) $(INC_DIR)/*.gch

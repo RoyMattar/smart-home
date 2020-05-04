@@ -51,7 +51,10 @@ private:
     SharedPtr<DistributionListTagged> listAnyRoom (Event::Type const& a_eventType, Event::Location::Floor const& a_eventFloor) const;
     SharedPtr<DistributionListTagged> listAnyFloor (Event::Type const& a_eventType) const;
     SharedPtr<DistributionListTagged> listAnyType () const;
-    SharedPtr<DistributionListTagged> concatLists (SharedPtr<DistributionListTagged> a_specificRoomList, SharedPtr<DistributionListTagged> a_anyRoomList, SharedPtr<DistributionListTagged> a_anyFloorList, SharedPtr<DistributionListTagged> a_anyTypeList) const;
+    SharedPtr<DistributionListTagged> concatLists (SharedPtr<DistributionListTagged> a_specificRoomList,
+                                                   SharedPtr<DistributionListTagged> a_anyRoomList,
+                                                   SharedPtr<DistributionListTagged> a_anyFloorList,
+                                                   SharedPtr<DistributionListTagged> a_anyTypeList) const; // overload +=, make generic
 
 private:
     TagMap m_tagMap;

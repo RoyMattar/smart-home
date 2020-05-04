@@ -31,7 +31,7 @@ UNIT(mvp)
     TestSensorAgent tempSensor(bus);
     TestControllerAgent tempController;
     
-    hub.Subscribe(tempController);
+    hub.Subscribe(&tempController);
     /*HUb::subscribe(Controler* c){
         for(auto e : c->getEventTypesOfIntreset()){
             m_dl.add(c, e);
@@ -48,17 +48,17 @@ UNIT(mvp)
     }*/
 
 // setup is done, lets test behavior
-    Event e1(tempChange, "06/04/20 12:12", "+5C", "B-1-3");
+    Event e1(tempChange, "06/04/20 12:12", "+5C", Event::Location("1", "3"));
     ASSERT_EQUAL(bus->NumOfElems(), 0);
     tempSensor.PublishEvent(e1);
-    Event e2(tempChange, "06/04/20 15:58", "-2C", "B-1-3");
+    Event e2(tempChange, "06/04/20 15:58", "-2C", Event::Location("1", "3"));
     tempSensor.PublishEvent(e2);
     ASSERT_EQUAL(bus->NumOfElems(), 2);
     hub.DistributeEvent();
 
 // lets assert and verify
     Event eout = tempController.GetEvent();
-    ASSERT_EQUAL(eout, e1);
+    ASSERT_THAT(eout == e1);
     ASSERT_EQUAL(bus->NumOfElems(), 1);
 END_UNIT
 

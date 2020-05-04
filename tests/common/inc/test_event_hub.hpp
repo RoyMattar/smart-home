@@ -19,12 +19,12 @@ public:
     //~TestEventHub () = default;
     //TestEventHub& operator= (const TestEventHub& a_other) = default;
 
-    void Subscribe (const TestControllerAgent& a_controller);
+    void Subscribe (TestControllerAgent* a_controller);
     void DistributeEvent ();
 
 private:
     SharedPtr<smart_home::IPullEventBus> m_pullBus;
-    std::list<TestControllerAgent> m_subscribers;
+    std::list<TestControllerAgent*> m_subscribers;
 };
 
 } // test_smart_home

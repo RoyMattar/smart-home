@@ -42,7 +42,7 @@ private:
     struct ConfigFileLines;
 
 private:
-    static int hardwareCores () NOEXCEPTIONS;
+    static int hardwareCores () NOEXCEPTIONS; // move to separate file
     static CyclicTag::TagType numOfTags (unsigned char a_tagFactor) NOEXCEPTIONS;
 
     void startFactory () NOEXCEPTIONS;
@@ -51,18 +51,24 @@ private:
     std::pair<SharedPtr<advcpp::SOLibHandler>, bool> tryMakeSOHandler (std::string const& a_libName) const NOEXCEPTIONS;
     std::pair<AgentMaker, bool> tryMakeAgentMaker (SharedPtr<advcpp::SOLibHandler> const& a_libHandler) NOEXCEPTIONS;
     bool tryConnectAgent (SharedPtr<IAgent> const& a_agent) NOEXCEPTIONS;
+    void disconnectAgents ();
+
+private:
+    typedef std::vector<SharedPtr<advcpp::SOLibHandler> > SOHandlers;
+    typedef std::vector<SharedPtr<TaggedDistributionChannel> > TaggedChannels;
+    typedef std::vector<SharedPtr<IAgent> > Agents;
 
 private:
     std::string m_configFile;
-    std::vector<SharedPtr<advcpp::SOLibHandler> > m_soHandlers;
+    SOHandlers m_soHandlers;
     CyclicTag::TagType m_numOfTags;
     SharedPtr<EventBus> m_eventBus;
     SharedPtr<ConsumerMapTagged<> > m_consumerMapTagged;
     SharedPtr<EventDistributor> m_distributor;
     EventDeliveryFactory m_deliveryFactory;
-    std::vector<SharedPtr<TaggedDistributionChannel> > m_taggedChannels;
+    TaggedChannels m_taggedChannels;
     std::pair<SharedPtr<EventMiddleware>, SharedPtr<advcpp::Thread> > m_middlewarePair;
-    std::vector<SharedPtr<IAgent> > m_agents;
+    Agents m_agents;
 };
 
 } // smart_home

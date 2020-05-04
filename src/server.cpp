@@ -62,7 +62,7 @@ Server::Server (std::string const& a_configFile, unsigned char a_parallelFactor,
     }
 }
 
-void Server::Start ()
+void Server::Start () // refactor, split into more sub-functions
 {
     std::ifstream fs(m_configFile.c_str());
     if (!fs.is_open())
@@ -112,6 +112,7 @@ void Server::Stop ()
     m_deliveryFactory.StopAll();
     std::vector<SharedPtr<Event> >(m_eventBus->Shutdown()); // TODO: log these events
     m_middlewarePair.second->Join();
+    disconnectAgents();
 }
 
 int Server::hardwareCores () NOEXCEPTIONS
@@ -124,11 +125,9 @@ CyclicTag::TagType Server::numOfTags (unsigned char a_tagFactor) NOEXCEPTIONS
     return hardwareCores() * a_tagFactor;
 }
 
-void Server::startFactory () NOEXCEPTIONS
+void Server::startFactory () NOEXCEPTIONS // use iterator in case container type is not a vector
 {
-    for (std::vector<SharedPtr<TaggedDistributionChannel> >::size_type i = 0;
-         i < m_taggedChannels.size();
-         ++i)
+    for (TaggedChannels::size_type i = 0; i < m_taggedChannels.size(); ++i)
     {
         m_deliveryFactory.AddCourier(m_taggedChannels[i], m_taggedChannels[i]);
     }
@@ -203,6 +202,15 @@ bool Server::tryConnectAgent (SharedPtr<IAgent> const& a_agent) NOEXCEPTIONS
         return false;
     }
     return true;
+}
+
+void Server::disconnectAgents ()
+{
+    Agents::iterator end = m_agents.end();
+    for (Agents::iterator itr = m_agents.begin(); itr < end; ++itr)
+    {
+        (*itr)->Disconnect();
+    }
 }
 
 } // smart_home
