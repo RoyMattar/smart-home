@@ -37,9 +37,9 @@ const char* DLSymExc::what () const NOEXCEPTIONS
     return m_what.c_str();
 }
 
-SOLibHandler::SOLibHandler (const char* a_fileName, int a_flags)
+SOLibHandler::SOLibHandler (const char* a_libName, int a_flags)
 {
-    m_handle = dlopen(a_fileName, a_flags);
+    m_handle = dlopen(a_libName, a_flags);
     if (m_handle == 0)
     {
         throw DLOpenExc(dlerror());

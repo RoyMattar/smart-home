@@ -6,7 +6,7 @@
 #include "common_utils.hpp"
 #include "i_push_distribution_channel.hpp"
 #include "i_pull_distribution_channel.hpp"
-#include "i_tagged.hpp"
+#include "i_tag_getter.hpp"
 #include "waitable_bounded_queue.hpp"
 #include "delivery_box.hpp"
 #include "group_tag.hpp"
@@ -15,7 +15,7 @@ namespace smart_home
 {
 
 class TaggedDistributionChannel : public IPushDistributionChannel, public IPullDistributionChannel,
-                                  public ITagged, private advcpp::Uncopyable
+                                  public ITagGetter, private advcpp::Uncopyable
 {
 public:
     TaggedDistributionChannel (size_t a_capacity, GroupTag a_tag);

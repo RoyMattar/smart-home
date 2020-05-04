@@ -8,7 +8,7 @@
 #include "event.hpp"
 #include "event_topic.hpp"
 #include "test_consumer.hpp"
-#include "cyclic_tag.hpp"
+#include "group_tag.hpp"
 #include "mutex.hpp"
 
 namespace smart_home
@@ -17,7 +17,7 @@ namespace smart_home
 class TestRegistrationBundle
 {
 public:
-    TestRegistrationBundle (CyclicTag::TagType a_numOfTags);
+    TestRegistrationBundle (GroupTag a_numOfTags);
 
     SharedPtr<ConsumerMapTagged<> > map;
     EventTopic light_F1_R3;     //sub1

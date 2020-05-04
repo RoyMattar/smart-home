@@ -9,7 +9,7 @@
 
 #include "common_utils.hpp"
 #include "so_lib_handler.hpp"
-#include "cyclic_tag.hpp"
+#include "group_tag.hpp"
 #include "event_bus.hpp"
 #include "consumer_map_tagged.hpp"
 #include "event_distributor.hpp"
@@ -43,7 +43,7 @@ private:
 
 private:
     static int hardwareCores () NOEXCEPTIONS; // move to separate file
-    static CyclicTag::TagType numOfTags (unsigned char a_tagFactor) NOEXCEPTIONS;
+    static GroupTag numOfTags (unsigned char a_tagFactor) NOEXCEPTIONS;
 
     void startFactory () NOEXCEPTIONS;
     void startMiddleware () NOEXCEPTIONS;
@@ -60,8 +60,13 @@ private:
 
 private:
     std::string m_configFile;
+<<<<<<< HEAD
     SOHandlers m_soHandlers;
     CyclicTag::TagType m_numOfTags;
+=======
+    std::vector<SharedPtr<advcpp::SOLibHandler> > m_soHandlers;
+    GroupTag m_numOfTags;
+>>>>>>> 3795e634d7389dc1a3a5292fc6c5f02154d15a8f
     SharedPtr<EventBus> m_eventBus;
     SharedPtr<ConsumerMapTagged<> > m_consumerMapTagged;
     SharedPtr<EventDistributor> m_distributor;

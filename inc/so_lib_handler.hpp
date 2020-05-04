@@ -14,7 +14,7 @@ class SOLibHandler : private Uncopyable
 {
 public:
     //@exception: throws DLOpenExc
-    SOLibHandler (const char* a_fileName, int a_flags = RTLD_NOW);
+    SOLibHandler (const char* a_libName, int a_flags = RTLD_NOW);
     ~SOLibHandler () NOEXCEPTIONS;
 
     template <typename SP>

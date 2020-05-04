@@ -11,7 +11,7 @@ namespace smart_home
 class EventCourier : public advcpp::IRunnable
 {
 public:
-    EventCourier (SharedPtr<IPullDistributionChannel> const& a_pullChannel);
+    explicit EventCourier (SharedPtr<IPullDistributionChannel> const& a_pullChannel);
     //EventCourier (EventCourier const& a_other) = default;
     //~EventCourier () = default;
     //EventCourier& operator= (EventCourier const& a_other) = default;

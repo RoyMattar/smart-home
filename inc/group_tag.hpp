@@ -1,12 +1,10 @@
 #ifndef GROUP_TAG_HPP
 #define GROUP_TAG_HPP
 
-#include "cyclic_tag.hpp"
-
 namespace smart_home
 {
 
-typedef CyclicTag::TagType GroupTag;
+typedef unsigned long GroupTag;
 
 } // smart_home
 

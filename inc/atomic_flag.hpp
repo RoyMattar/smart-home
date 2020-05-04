@@ -13,7 +13,7 @@ template <>
 class AtomicValue<bool> : private Uncopyable
 {
 public:
-    AtomicValue (bool a_flag = false) NOEXCEPTIONS;
+    explicit AtomicValue (bool a_flag = false) NOEXCEPTIONS;
     //~AtomicValue () = default;
 
     void operator= (bool a_newFlag) NOEXCEPTIONS;

@@ -8,7 +8,7 @@
 
 #include "i_agent.hpp"
 #include "so_lib_handler.hpp"
-#include "cyclic_tag.hpp"
+#include "group_tag.hpp"
 #include "common_utils.hpp"
 #include "event_bus.hpp"
 #include "consumer_map_tagged.hpp"
@@ -22,7 +22,7 @@ using namespace advcpp;
 using namespace smart_home;
 
 const std::string configFile("config.ini");
-const CyclicTag::TagType numOfTags = 6;
+const GroupTag numOfTags = 6;
 const size_t publicationBandwidth = 32;
 const size_t distributionBandwidth = 32;
 
@@ -42,11 +42,11 @@ UNIT(complete)
     EventDeliveryFactory eventDeliveryFactory;
 
     std::vector<SharedPtr<TaggedDistributionChannel> > taggedDistributionChannels;
-    for (CyclicTag::TagType tag = 0; tag < numOfTags; ++tag)
+    for (GroupTag tag = 0; tag < numOfTags; ++tag)
     {
         SharedPtr<TaggedDistributionChannel> chan(new TaggedDistributionChannel(distributionBandwidth, tag));
         taggedDistributionChannels.push_back(chan);
-        eventDistributor->AddChannel(chan);
+        eventDistributor->AddTaggedChannel(chan);
         eventDeliveryFactory.AddCourier(chan);
     }
 

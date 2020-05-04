@@ -1,11 +1,12 @@
 #include "cyclic_tag.hpp"
+#include "group_tag.hpp"
 
 namespace smart_home
 {
 
-CyclicTag::CyclicTag (TagType a_numOfTags)
+CyclicTag::CyclicTag (GroupTag a_numOfTags)
     : m_currentTag(0)
-    , m_maxTag(a_numOfTags)
+    , m_numOfTags(a_numOfTags)
 { }
 
 } // smart_home

@@ -7,7 +7,7 @@
 #include "i_event_distributor.hpp"
 #include "common_utils.hpp"
 #include "i_push_distribution_channel.hpp"
-#include "i_tagged.hpp"
+#include "i_tag_getter.hpp"
 #include "event.hpp"
 #include "distribution_list_tagged.hpp"
 #include "group_tag.hpp"
@@ -23,8 +23,8 @@ public:
     //~EventDistributor () = default;
     //EventDistributor& operator= (EventDistributor const& a_other) = default;
 
-    virtual void AddChannel (SharedPtr<IPushDistributionChannel> a_pushChannel,
-                             SharedPtr<ITagged> a_tagged);
+    virtual void AddTaggedChannel (SharedPtr<ITagGetter> const& a_tagGetter, 
+                                   SharedPtr<IPushDistributionChannel> const& a_pushChannel);
     //@exception throws std::out_of_range if no channel matches given tag
     virtual void Distribute (SharedPtr<Event> const& a_pEvent,
                              SharedPtr<DistributionListTagged> const& a_distributionListTagged);
