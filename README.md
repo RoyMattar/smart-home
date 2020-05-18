@@ -17,6 +17,7 @@ The system includes the following components:
 
 Sensor agents generate events which will be routed to the controller agents interested in acting upon them.
 Generated events contain at least: the event type, the event location, a timestamp and a data payload.
+See design/diagrams/ for a detailed overview of the system's flow.
 
 ## Startup
 Agents are loaded at system startup according to a configuration file (.ini).
