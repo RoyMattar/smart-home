@@ -17,3 +17,5 @@ settings.json
 
 # visual paradigm diagrams
 .vpp*
+
+.DS_Store
